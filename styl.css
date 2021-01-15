@@ -187,7 +187,7 @@ img {
 /* "Automagic" image grid using no media queries */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   grid-gap: 4rem;
   width: 100%;
   max-width: 1280px;
@@ -269,7 +269,6 @@ img {
   height: 80vh;
   padding: 0 2rem;
   background: var(--main-gray);
-  
 }
 
 .contact-section-header > h2 {
@@ -303,13 +302,4 @@ img {
 
 .contact-details:hover {
   transform: translateY(8px);
-}
-
-
-
-@media (max-width: 28.75em) {
-  footer {
-    flex-direction: column;
-    text-align: center;
-  }
 }
