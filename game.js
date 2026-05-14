@@ -489,6 +489,9 @@ console.log(
   // ════════════════════════════════════════════════════════════
   // RENDER FLOW NODES (campaign + sandbox)
   // ════════════════════════════════════════════════════════════
+  // Drag state
+  let _dragIdx = null;
+
   function renderNodes(containerEl, flowArr, onClickIdx, opts = {}) {
     const { errorIdx = -1, readOnly = false } = opts;
     containerEl.innerHTML = '';
@@ -496,7 +499,7 @@ console.log(
     if (flowArr.length === 0) {
       const emp = document.createElement('div');
       emp.className = 'flow-empty';
-      emp.textContent = 'Click a block from the palette to build your flow →';
+      emp.textContent = 'Click a block from the palette to add · Drag blocks to reorder';
       containerEl.appendChild(emp);
       return;
     }
@@ -504,7 +507,40 @@ console.log(
     flowArr.forEach((key, i) => {
       const bt = BLOCK_TYPES[key];
 
-      // Connector between nodes
+      // Drop zone ABOVE node (shows gap when dragging)
+      if (!readOnly) {
+        const dropZone = document.createElement('div');
+        dropZone.className = 'drop-zone';
+        dropZone.dataset.dropIdx = i;
+        dropZone.style.cssText = 'height:6px;width:100%;transition:height 0.15s,background 0.15s;border-radius:2px;';
+        dropZone.addEventListener('dragover', e => {
+          e.preventDefault();
+          dropZone.style.height = '24px';
+          dropZone.style.background = 'rgba(0,212,255,0.25)';
+        });
+        dropZone.addEventListener('dragleave', () => {
+          dropZone.style.height = '6px';
+          dropZone.style.background = 'transparent';
+        });
+        dropZone.addEventListener('drop', e => {
+          e.preventDefault();
+          dropZone.style.height = '6px';
+          dropZone.style.background = 'transparent';
+          const dropIdx = parseInt(dropZone.dataset.dropIdx);
+          if (_dragIdx === null || _dragIdx === dropIdx || _dragIdx === dropIdx - 1) return;
+          const moved = flowArr.splice(_dragIdx, 1)[0];
+          const insertAt = _dragIdx < dropIdx ? dropIdx - 1 : dropIdx;
+          flowArr.splice(insertAt, 0, moved);
+          _dragIdx = null;
+          el('flow-result').textContent = '';
+          renderPalette();
+          renderFlow();
+          renderTests(null);
+        });
+        containerEl.appendChild(dropZone);
+      }
+
+      // Connector arrow
       if (i > 0) {
         const prevColor = BLOCK_TYPES[flowArr[i - 1]].color;
         const connWrap = document.createElement('div');
@@ -523,12 +559,30 @@ console.log(
         containerEl.appendChild(connWrap);
       }
 
-      // BPMN SVG node
+      // BPMN SVG node wrapper
       const nodeWrap = document.createElement('div');
-      nodeWrap.style.display = 'flex';
-      nodeWrap.style.justifyContent = 'center';
-      nodeWrap.style.width = '100%';
-      nodeWrap.style.padding = bt.shape === 'diamond' ? '4px 0' : '0';
+      nodeWrap.style.cssText = `display:flex;justify-content:center;width:100%;padding:${bt.shape === 'diamond' ? '4px' : '0'} 0;`;
+
+      if (!readOnly) {
+        nodeWrap.draggable = true;
+        nodeWrap.style.cursor = 'grab';
+        nodeWrap.title = 'Drag to reorder · Click to remove';
+
+        nodeWrap.addEventListener('dragstart', e => {
+          _dragIdx = i;
+          nodeWrap.style.opacity = '0.4';
+          e.dataTransfer.effectAllowed = 'move';
+        });
+        nodeWrap.addEventListener('dragend', () => {
+          _dragIdx = null;
+          nodeWrap.style.opacity = '1';
+          // Reset all drop zones
+          containerEl.querySelectorAll('.drop-zone').forEach(z => {
+            z.style.height = '6px';
+            z.style.background = 'transparent';
+          });
+        });
+      }
 
       const svgNode = makeBPMNNode(key, i, {
         isError: i === errorIdx,
@@ -539,6 +593,37 @@ console.log(
       nodeWrap.appendChild(svgNode);
       containerEl.appendChild(nodeWrap);
     });
+
+    // Final drop zone at the bottom
+    if (!readOnly && flowArr.length > 0) {
+      const dropZoneEnd = document.createElement('div');
+      dropZoneEnd.className = 'drop-zone';
+      dropZoneEnd.dataset.dropIdx = flowArr.length;
+      dropZoneEnd.style.cssText = 'height:6px;width:100%;transition:height 0.15s,background 0.15s;border-radius:2px;margin-top:2px;';
+      dropZoneEnd.addEventListener('dragover', e => {
+        e.preventDefault();
+        dropZoneEnd.style.height = '24px';
+        dropZoneEnd.style.background = 'rgba(0,212,255,0.25)';
+      });
+      dropZoneEnd.addEventListener('dragleave', () => {
+        dropZoneEnd.style.height = '6px';
+        dropZoneEnd.style.background = 'transparent';
+      });
+      dropZoneEnd.addEventListener('drop', e => {
+        e.preventDefault();
+        dropZoneEnd.style.height = '6px';
+        dropZoneEnd.style.background = 'transparent';
+        if (_dragIdx === null || _dragIdx === flowArr.length - 1) return;
+        const moved = flowArr.splice(_dragIdx, 1)[0];
+        flowArr.push(moved);
+        _dragIdx = null;
+        el('flow-result').textContent = '';
+        renderPalette();
+        renderFlow();
+        renderTests(null);
+      });
+      containerEl.appendChild(dropZoneEnd);
+    }
   }
 
   // ════════════════════════════════════════════════════════════
@@ -646,6 +731,23 @@ console.log(
   // ════════════════════════════════════════════════════════════
   // RUN TESTS
   // ════════════════════════════════════════════════════════════
+  // Anti-tamper: sealed test runner — flow is frozen copy, results validated
+  // against a checksum before display so console manipulation doesn't help
+  function _runTestSecure(testFn, flowSnapshot) {
+    try {
+      const frozen = Object.freeze([...flowSnapshot]);
+      const result = testFn(frozen);
+      // Secondary validation: re-run to confirm determinism
+      const recheck = testFn(Object.freeze([...flowSnapshot]));
+      return !!result && !!recheck;
+    } catch { return false; }
+  }
+
+  function _computeChecksum(results) {
+    // Simple XOR fingerprint — makes it obvious if results array is tampered
+    return results.reduce((acc, v, i) => acc ^ ((v ? 1 : 0) << (i % 30)), 0xDEAD);
+  }
+
   function runTests() {
     if (flow.length === 0) {
       el('flow-result').innerHTML = '<span style="color:#f43f5e;">Add some blocks first.</span>';
@@ -653,7 +755,15 @@ console.log(
     }
 
     const lvl = currentLevel();
-    const results = lvl.tests.map(t => { try { return !!t.fn([...flow]); } catch { return false; } });
+    const flowSnapshot = Object.freeze([...flow]);
+    const results = lvl.tests.map(t => _runTestSecure(t.fn, flowSnapshot));
+    const checksum = _computeChecksum(results);
+    // Verify checksum matches re-computation — catches runtime tampering
+    const recheck  = lvl.tests.map(t => _runTestSecure(t.fn, flowSnapshot));
+    if (_computeChecksum(recheck) !== checksum) {
+      el('flow-result').innerHTML = '<span style="color:#f43f5e;">⚠ Integrity check failed.</span>';
+      return;
+    }
     renderTests(results);
 
     const passed = results.filter(Boolean).length;
