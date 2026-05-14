@@ -1,152 +1,2008 @@
 <!DOCTYPE html>
-
+<html lang="en">
 <head>
-  <link
-            rel="shortcut icon"
-            href="https://twemoji.maxcdn.com/2/svg/1f5a5.svg"
-            type="image/x-icon"
-        />
-<link rel="shortcut icon" href="https://twemoji.maxcdn.com/2/svg/1f5a5.svg%22type=%22image/x-icon" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mateusz Łaszczyk — RPA &amp; AI Automation Engineer</title>
+  <meta name="description" content="Portfolio of Mateusz Łaszczyk — RPA Engineer specialising in UiPath, Power Platform, SAP automation and Azure AI. UiPath Certified. Power Platform Certified." />
+  <meta name="author" content="Mateusz Łaszczyk" />
+  <meta name="theme-color" content="#080c10" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Mateusz Łaszczyk — RPA &amp; AI Automation Engineer" />
+  <meta property="og:description" content="UiPath Certified RPA Engineer. Power Platform. Azure AI." />
+  <meta property="og:type" content="website" />
+
+  <!-- Favicon as inline SVG (cyan code-bracket motif) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23080c10'/%3E%3Ctext x='32' y='44' font-family='monospace' font-size='38' font-weight='bold' text-anchor='middle' fill='%2300d4ff'%3E%26gt;_%3C/text%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #080c10;
+      --bg2:       #0d1117;
+      --bg3:       #131920;
+      --border:    #1e2d3d;
+      --accent:    #00d4ff;
+      --accent2:   #7c3aed;
+      --accent3:   #10b981;
+      --text:      #e2e8f0;
+      --muted:     #64748b;
+      --mono:      'Space Mono', monospace;
+      --sans:      'Syne', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 4rem;
+      backdrop-filter: blur(12px);
+      background: rgba(8,12,16,0.8);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 4rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%);
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
+      top: -150px; right: -200px;
+      pointer-events: none;
+    }
+
+    .hero-glow2 {
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 70%);
+      bottom: -100px; left: -100px;
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1.hero-title {
+      font-family: var(--sans);
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      max-width: 14ch;
+      margin-bottom: 1.5rem;
+    }
+
+    h1.hero-title span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-family: var(--mono);
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 55ch;
+      margin-bottom: 3rem;
+      line-height: 1.8;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      padding: 0.85rem 2rem;
+      background: var(--accent);
+      color: var(--bg);
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,212,255,0.3);
+    }
+
+    .btn-secondary {
+      padding: 0.85rem 2rem;
+      background: transparent;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 3rem; left: 4rem;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .hero-scroll::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 1px;
+      background: var(--muted);
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollLine {
+      0%, 100% { opacity: 0.3; transform: scaleX(1); }
+      50% { opacity: 1; transform: scaleX(1.3); transform-origin: left; }
+    }
+
+    /* ── SECTION BASE ── */
+    section {
+      padding: 6rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 30px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h2.section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 3.5rem;
+      line-height: 1.1;
+    }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--bg2); }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      position: relative;
+      transition: border-color 0.3s, transform 0.3s;
+      overflow: hidden;
+    }
+
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+
+    .skill-card:hover::before { transform: scaleX(1); }
+    .skill-card:hover {
+      border-color: rgba(0,212,255,0.3);
+      transform: translateY(-4px);
+    }
+
+    .skill-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .skill-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      padding: 0.25rem 0.6rem;
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.2);
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+
+    .tag.purple {
+      background: rgba(124,58,237,0.08);
+      border-color: rgba(124,58,237,0.2);
+      color: #a78bfa;
+    }
+
+    .tag.green {
+      background: rgba(16,185,129,0.08);
+      border-color: rgba(16,185,129,0.2);
+      color: var(--accent3);
+    }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--bg); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 2rem;
+    }
+
+    .project-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card:hover { border-color: rgba(0,212,255,0.25); }
+
+    .project-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 120px; height: 120px;
+      background: radial-gradient(circle, rgba(0,212,255,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .project-number {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 1.25rem;
+    }
+
+    .project-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+
+    .project-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+      flex: 1;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-link {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: gap 0.2s;
+    }
+
+    a.project-link:hover { gap: 0.9rem; }
+    a.project-link::after { content: '→'; }
+
+    /* ── ABOUT / TERMINAL ── */
+    #about { background: var(--bg2); }
+
+    .about-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.8;
+      margin-bottom: 1.25rem;
+    }
+
+    .about-text p strong { color: var(--text); }
+
+    .terminal {
+      background: #0a0f14;
+      border: 1px solid var(--border);
+      border-radius: 0;
+      overflow: hidden;
+      font-family: var(--mono);
+    }
+
+    .terminal-bar {
+      background: var(--bg3);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    .dot.r { background: #ff5f56; }
+    .dot.y { background: #ffbd2e; }
+    .dot.g { background: #27c93f; }
+
+    .terminal-title {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-left: auto;
+      letter-spacing: 0.05em;
+    }
+
+    .terminal-body {
+      padding: 1.5rem;
+      font-size: 0.78rem;
+      line-height: 2;
+    }
+
+    .t-prompt { color: var(--accent3); }
+    .t-cmd { color: var(--text); }
+    .t-out { color: var(--muted); }
+    .t-val { color: var(--accent); }
+    .t-str { color: #f59e0b; }
+    .t-cursor {
+      display: inline-block;
+      width: 8px; height: 1em;
+      background: var(--accent);
+      vertical-align: text-bottom;
+      animation: blink 1.2s step-end infinite;
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--bg);
+      text-align: center;
+    }
+
+    .contact-inner {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .contact-inner p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer p {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent3);
+      margin-right: 0.4rem;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.4); }
+      50% { box-shadow: 0 0 0 5px rgba(16,185,129,0); }
+    }
+
+    /* ── FADE IN ANIMATION ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 2rem; }
+      .nav-links { gap: 1.5rem; }
+      section { padding: 4rem 2rem; }
+      #hero { padding: 7rem 2rem 3rem; }
+      .about-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      footer { flex-direction: column; gap: 0.75rem; text-align: center; }
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      h1.hero-title { font-size: 2.5rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
-  <body>
-<link rel="stylesheet" type="text/css" href="styl.css">
-<link
-  href="https://fonts.googleapis.com/css?family=Poppins:200i,300,400&display=swap"
-  rel="stylesheet"
-/>
-<link
-  href="https://fonts.googleapis.com/css?family=Raleway:700&display=swap"
-  rel="stylesheet"
-/>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">// mlaszczyk.dev</div>
+    <ul class="nav-links">
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#why-game">Why a game</a></li>
+      <li><a href="#flowgame">Flow Designer</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-glow2"></div>
+
+    <div class="hero-eyebrow">RPA Engineer &amp; AI Automation · 3+ years production</div>
+    <h1 class="hero-title">
+      Automate.<br><span>Integrate.</span><br>Ship.
+    </h1>
+    <p class="hero-sub">
+      UiPath Certified · Power Platform Certified · Azure AI.<br>
+      Building production-grade automation for enterprise environments.
+    </p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn-primary">See projects</a>
+      <a href="#contact" class="btn-secondary">Get in touch</a>
+    </div>
+
+    <div class="hero-scroll">Scroll</div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-label">Competencies</div>
+    <h2 class="section-title">What I do</h2>
+
+    <div class="skills-grid">
+      <div class="skill-card fade-in">
+        <div class="skill-icon">🤖</div>
+        <h3>Robotic Process Automation</h3>
+        <p style="font-size:0.88rem;color:var(--muted);line-height:1.7;">
+          3+ years building production bots in enterprise environments. Dispatcher–Performer patterns, queue management, exception handling. Certified RPA Associate.
+        </p>
+        <div class="skill-tags">
+          <span class="tag">UiPath Studio</span>
+          <span class="tag">Orchestrator</span>
+          <span class="tag">REFramework</span>
+          <span class="tag">SAP GUI</span>
+          <span class="tag">Git</span>
+        </div>
+      </div>
+
+      <div class="skill-card fade-in">
+        <div class="skill-icon">⚡</div>
+        <h3>Power Platform &amp; Microsoft Automation</h3>
+        <p style="font-size:0.88rem;color:var(--muted);line-height:1.7;">
+          Power Automate Desktop flows, connectors, and cloud flows. Microsoft Certified: Power Platform Fundamentals. Building low-code automations alongside traditional RPA.
+        </p>
+        <div class="skill-tags">
+          <span class="tag purple">Power Automate</span>
+          <span class="tag purple">Power Automate Desktop</span>
+          <span class="tag purple">Power Platform</span>
+          <span class="tag purple">Dataverse</span>
+        </div>
+      </div>
+
+      <div class="skill-card fade-in">
+        <div class="skill-icon">🧠</div>
+        <h3>AI &amp; Machine Learning</h3>
+        <p style="font-size:0.88rem;color:var(--muted);line-height:1.7;">
+          Azure AI Studio, Microsoft Agent Framework. Building ML-augmented automations and exploring intelligent process automation beyond rule-based bots.
+        </p>
+        <div class="skill-tags">
+          <span class="tag purple">Python</span>
+          <span class="tag purple">Azure AI Studio</span>
+          <span class="tag purple">Microsoft Agent Framework</span>
+          <span class="tag purple">scikit-learn</span>
+          <span class="tag purple">pandas</span>
+        </div>
+      </div>
+
+      <div class="skill-card fade-in">
+        <div class="skill-icon">🔗</div>
+        <h3>SAP &amp; Enterprise Systems</h3>
+        <p style="font-size:0.88rem;color:var(--muted);line-height:1.7;">
+          Automating financial and accounting processes in SAP ERP across multiple clients. FI module, invoice processing, MM transactions, GUI scripting.
+        </p>
+        <div class="skill-tags">
+          <span class="tag green">SAP ERP</span>
+          <span class="tag green">FI Module</span>
+          <span class="tag green">Invoice Processing</span>
+          <span class="tag green">SAP GUI Scripting</span>
+        </div>
+      </div>
+
+      <div class="skill-card fade-in">
+        <div class="skill-icon">📊</div>
+        <h3>Data &amp; Analytics</h3>
+        <p style="font-size:0.88rem;color:var(--muted);line-height:1.7;">
+          SQL queries, Python data analysis, process log mining. Identifying automation candidates from operational data and building scoring models for process prioritisation.
+        </p>
+        <div class="skill-tags">
+          <span class="tag">SQL</span>
+          <span class="tag purple">Python</span>
+          <span class="tag purple">Jupyter</span>
+          <span class="tag">Excel / VBA</span>
+        </div>
+      </div>
+
+      <div class="skill-card fade-in">
+        <div class="skill-icon">🌐</div>
+        <h3>Web &amp; Dev Fundamentals</h3>
+        <p style="font-size:0.88rem;color:var(--muted);line-height:1.7;">
+          HTML, CSS, JavaScript for building automation tooling, internal dashboards and interfaces. Agile delivery in Scrum teams across enterprise environments.
+        </p>
+        <div class="skill-tags">
+          <span class="tag green">HTML</span>
+          <span class="tag green">CSS</span>
+          <span class="tag green">JavaScript</span>
+          <span class="tag">Git</span>
+          <span class="tag">Scrum</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-label">Portfolio</div>
+    <h2 class="section-title">Selected projects</h2>
+    <p style="font-family:var(--mono);font-size:0.78rem;color:var(--muted);margin-top:-2.5rem;margin-bottom:3rem;max-width:60ch;line-height:1.7;">
+      Production work is covered by NDA. Projects below represent real patterns and architectures from deployed systems.
+    </p>
+
+    <div class="projects-grid">
+      <div class="project-card fade-in">
+        <div class="project-number">// 01</div>
+        <h3>RPA Sandbox — Reusable Component Library</h3>
+        <p>
+          Personal open-source library of production-ready UiPath components: REFramework dispatcher/performer templates, custom exception handling layers, Orchestrator queue utilities, and standardised logging. Built to accelerate bot development on new projects.
+        </p>
+        <div class="project-tech">
+          <span class="tag">UiPath</span>
+          <span class="tag">REFramework</span>
+          <span class="tag">Orchestrator</span>
+          <span class="tag green">Open Source</span>
+        </div>
+        <a href="https://github.com/JessePP" target="_blank" rel="noopener noreferrer" class="project-link">View on GitHub</a>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-number">// 02</div>
+        <h3>Financial Document Processing — SAP Automation</h3>
+        <p>
+          Production bot automating high-volume invoice processing in SAP FI. Handles document validation, posting, and exception routing across multiple entity types. Deployed and maintained in a large-scale enterprise environment.
+        </p>
+        <div class="project-tech">
+          <span class="tag">UiPath</span>
+          <span class="tag">SAP FI</span>
+          <span class="tag">REFramework</span>
+          <span class="tag green">Production</span>
+        </div>
+        <span class="project-link" style="cursor:default;opacity:0.55;color:var(--muted);">NDA — case study in progress</span>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-number">// 03</div>
+        <h3>Power Automate — Concurrency Lock Pattern</h3>
+        <p>
+          Solution preventing race conditions when multiple parent flows trigger a shared child flow simultaneously. Implemented using Dataverse flag table with atomic read/write logic — eliminates duplicate processing without Orchestrator dependency.
+        </p>
+        <div class="project-tech">
+          <span class="tag purple">Power Automate</span>
+          <span class="tag purple">Dataverse</span>
+          <span class="tag purple">Power Platform</span>
+        </div>
+        <span class="project-link" style="cursor:default;opacity:0.55;color:var(--muted);">Case study coming soon</span>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-number">// 04</div>
+        <h3>RPA Flow Designer — Interactive Portfolio Game</h3>
+        <p>
+          Browser-based logic game built into this portfolio. Five real-world RPA business cases — players sequence automation blocks to satisfy unit tests. Demonstrates both domain knowledge and front-end capability without a framework.
+        </p>
+        <div class="project-tech">
+          <span class="tag green">JavaScript</span>
+          <span class="tag green">HTML/CSS</span>
+          <span class="tag">RPA Design</span>
+        </div>
+        <a href="#flowgame" class="project-link">Try it below</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label">Who I am</div>
+    <h2 class="section-title">About</h2>
+
+    <div class="about-layout">
+      <div class="about-text fade-in">
+        <p>
+          RPA Engineer with production experience across enterprise environments. I build automation that handles financial document processing, back-office operations, and SAP integrations at scale.
+        </p>
+        <p>
+          Certified <strong>UiPath RPA Associate</strong> and <strong>Microsoft Power Platform Fundamentals</strong>. Currently deepening expertise in AI-augmented automation — Azure AI Studio, Microsoft Agent Framework, and moving beyond purely rule-based bots.
+        </p>
+        <p>
+          I care about code quality, maintainability, and automation that actually keeps running six months after deployment. REFramework, proper exception handling, and zero hard-coded values — not optional.
+        </p>
+      </div>
+
+      <div class="terminal fade-in">
+        <div class="terminal-bar">
+          <div class="dot r"></div>
+          <div class="dot y"></div>
+          <div class="dot g"></div>
+          <span class="terminal-title">profile.json — bash</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="t-prompt">~$</span> <span class="t-cmd">cat profile.json</span></div>
+          <div class="t-out">{</div>
+          <div class="t-out">&nbsp;&nbsp;<span class="t-val">"name"</span>: <span class="t-str">"Mateusz Łaszczyk"</span>,</div>
+          <div class="t-out">&nbsp;&nbsp;<span class="t-val">"role"</span>: <span class="t-str">"RPA Engineer"</span>,</div>
+          <div class="t-out">&nbsp;&nbsp;<span class="t-val">"location"</span>: <span class="t-str">"Poland 🇵🇱"</span>,</div>
+          <div class="t-out">&nbsp;&nbsp;<span class="t-val">"certs"</span>: [</div>
+          <div class="t-out">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"UiPath Certified RPA Associate"</span>,</div>
+          <div class="t-out">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"MS Power Platform Fundamentals"</span></div>
+          <div class="t-out">&nbsp;&nbsp;],</div>
+          <div class="t-out">&nbsp;&nbsp;<span class="t-val">"stack"</span>: [<span class="t-str">"UiPath"</span>, <span class="t-str">"Power Platform"</span>,</div>
+          <div class="t-out">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"SAP"</span>, <span class="t-str">"Python"</span>, <span class="t-str">"Azure AI"</span>],</div>
+          <div class="t-out">&nbsp;&nbsp;<span class="t-val">"learning"</span>: <span class="t-str">"Agent Framework + AI-900"</span>,</div>
+          <div class="t-out">&nbsp;&nbsp;<span class="t-val">"open_to_work"</span>: <span class="t-val">true</span></div>
+          <div class="t-out">}</div>
+          <div><span class="t-prompt">~$</span> <span class="t-cursor"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────────────────────────────────────── -->
+  <!-- FLOW DESIGNER GAME v2                                          -->
+  <!-- ──────────────────────────────────────────────────────────── -->
+
+  <!-- WHY THIS GAME EXISTS -->
+  <section id="why-game" style="background:var(--bg2);padding-bottom:2rem;">
+    <div class="section-label">Why this game exists</div>
+    <h2 class="section-title" style="margin-bottom:1.5rem;">Portfolio without the NDA</h2>
+
+    <div style="max-width:780px;display:flex;flex-direction:column;gap:1.25rem;">
+      <p style="font-family:var(--mono);font-size:0.88rem;color:var(--muted);line-height:1.8;">
+        Most RPA work runs in production environments under strict NDAs. Screenshots, code samples, even architectural diagrams of real bots — usually off-limits. The standard "show your GitHub repos" advice doesn't translate to enterprise automation engineers.
+      </p>
+      <p style="font-family:var(--mono);font-size:0.88rem;color:var(--muted);line-height:1.8;">
+        So instead of a portfolio of <em>things I built that I can't show you</em> — here's something better. An interactive game built from the same domain knowledge I use at work. It lets you watch me think about RPA: which patterns to apply, what order, what can fail, what the production-grade version looks like.
+      </p>
+      <p style="font-family:var(--mono);font-size:0.88rem;color:var(--accent);line-height:1.8;">
+        ▸ Play it. Three modes, 12+ scenarios. If you've designed automation before, you'll recognise every one.
+      </p>
+    </div>
+  </section>
+
+  <!-- FLOW GAME -->
+  <section id="flowgame" style="background:var(--bg);padding-top:3rem;">
+    <div class="section-label">Interactive</div>
+    <h2 class="section-title" style="margin-bottom:1rem;">RPA Flow Designer</h2>
+
+    <!-- MODE TABS -->
+    <div id="mode-tabs" style="display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:2rem;flex-wrap:wrap;">
+      <button data-mode="campaign" class="mode-tab mode-tab-active">
+        <span style="font-weight:700;">▸ Campaign</span>
+        <span style="display:block;font-size:0.65rem;color:var(--muted);margin-top:0.2rem;text-transform:none;letter-spacing:0;">12 business scenarios</span>
+      </button>
+      <button data-mode="debug" class="mode-tab">
+        <span style="font-weight:700;">▸ Debug</span>
+        <span style="display:block;font-size:0.65rem;color:var(--muted);margin-top:0.2rem;text-transform:none;letter-spacing:0;">find the broken bot</span>
+      </button>
+      <button data-mode="sandbox" class="mode-tab">
+        <span style="font-weight:700;">▸ Sandbox</span>
+        <span style="display:block;font-size:0.65rem;color:var(--muted);margin-top:0.2rem;text-transform:none;letter-spacing:0;">free design + export</span>
+      </button>
+      <button data-mode="leaderboard" class="mode-tab">
+        <span style="font-weight:700;">▸ Stats</span>
+        <span style="display:block;font-size:0.65rem;color:var(--muted);margin-top:0.2rem;text-transform:none;letter-spacing:0;">your results</span>
+      </button>
+    </div>
+
+    <style>
+      .mode-tab {
+        padding: 0.85rem 1.25rem;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid transparent;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: color 0.2s, border-color 0.2s, background 0.2s;
+        text-align: left;
+      }
+      .mode-tab:hover { color: var(--text); background: rgba(0,212,255,0.04); }
+      .mode-tab-active { color: var(--accent); border-bottom-color: var(--accent); }
+    </style>
+
+    <!-- ──────────────────────────────────────────────────────── -->
+    <!-- CAMPAIGN MODE                                              -->
+    <!-- ──────────────────────────────────────────────────────── -->
+    <div id="mode-campaign" class="mode-panel">
+      <div style="display:flex;gap:2rem;align-items:flex-start;flex-wrap:wrap;">
+        <!-- SIDEBAR -->
+        <div style="display:flex;flex-direction:column;gap:1rem;min-width:260px;max-width:340px;flex:0 0 300px;">
+
+          <!-- Domain filter -->
+          <div style="font-family:var(--mono);font-size:0.72rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;">// Domain Filter</div>
+          <div id="domain-filter" style="display:flex;flex-wrap:wrap;gap:0.35rem;"></div>
+
+          <!-- Business case -->
+          <div style="font-family:var(--mono);font-size:0.72rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-top:0.5rem;">// Business Case</div>
+          <div id="business-case" style="font-family:var(--sans);font-size:0.82rem;color:var(--text);line-height:1.55;background:linear-gradient(135deg,rgba(0,212,255,0.06),rgba(124,58,237,0.06));border:1px solid rgba(0,212,255,0.25);border-left:3px solid var(--accent);padding:0.85rem 1rem;"></div>
+
+          <!-- Framework recommendation -->
+          <div id="framework-rec-wrapper" style="display:none;">
+            <div style="font-family:var(--mono);font-size:0.72rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-top:0.5rem;">// Recommended Framework</div>
+            <div id="framework-rec" style="font-family:var(--mono);font-size:0.7rem;color:var(--accent3);background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.2);padding:0.55rem 0.75rem;line-height:1.5;"></div>
+          </div>
+
+          <!-- Task -->
+          <div style="font-family:var(--mono);font-size:0.72rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-top:0.5rem;">// Task</div>
+          <div id="task-desc" style="font-family:var(--mono);font-size:0.72rem;color:var(--muted);line-height:1.7;background:var(--bg3);border:1px solid var(--border);padding:0.75rem;"></div>
+
+          <!-- Palette -->
+          <div style="font-family:var(--mono);font-size:0.72rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-top:0.5rem;">// Blocks <span style="color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400;">— click to add</span></div>
+          <div id="palette" style="display:flex;flex-direction:column;gap:0.4rem;"></div>
+
+          <!-- Tests -->
+          <div style="font-family:var(--mono);font-size:0.72rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-top:0.5rem;">// Tests</div>
+          <div id="tests-panel" style="display:flex;flex-direction:column;gap:0.4rem;font-family:var(--mono);font-size:0.72rem;"></div>
+
+          <button id="run-btn" style="
+            margin-top:1rem;padding:0.7rem 1rem;background:var(--accent);color:var(--bg);
+            font-family:var(--mono);font-size:0.75rem;font-weight:700;letter-spacing:0.1em;
+            text-transform:uppercase;border:none;cursor:pointer;
+            clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
+          ">▶ Run flow</button>
+
+          <button id="reset-btn" style="
+            padding:0.7rem 1rem;background:transparent;color:var(--muted);
+            font-family:var(--mono);font-size:0.75rem;letter-spacing:0.1em;
+            text-transform:uppercase;border:1px solid var(--border);cursor:pointer;
+          ">↺ Reset</button>
+
+          <div id="flow-result" style="font-family:var(--mono);font-size:0.8rem;min-height:2rem;text-align:center;"></div>
+        </div>
+
+        <!-- CANVAS -->
+        <div style="flex:1;min-width:300px;">
+          <!-- Top status bar -->
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:0.5rem;">
+            <div style="font-family:var(--mono);font-size:0.72rem;color:var(--muted);letter-spacing:0.05em;">
+              Click palette block → adds to board · Click block on board → removes it
+            </div>
+            <div style="display:flex;gap:1.25rem;font-family:var(--mono);font-size:0.75rem;">
+              <div>⏱ <span id="fg-timer" style="color:var(--accent3);">00:00</span></div>
+              <div>Lvl: <span id="fg-level" style="color:var(--accent);">1</span></div>
+              <div>Score: <span id="fg-score" style="color:#f59e0b;">0</span></div>
+            </div>
+          </div>
+
+          <div id="flow-board" style="
+            background:var(--bg2);border:1px solid var(--border);
+            min-height:420px;padding:1.5rem;position:relative;
+            display:flex;flex-direction:column;align-items:center;gap:0;
+          ">
+            <div id="flow-nodes" style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────────────────────── -->
+    <!-- DEBUG MODE                                                 -->
+    <!-- ──────────────────────────────────────────────────────── -->
+    <div id="mode-debug" class="mode-panel" style="display:none;">
+      <div style="max-width:880px;">
+        <p style="font-family:var(--mono);font-size:0.85rem;color:var(--muted);line-height:1.8;margin-bottom:2rem;">
+          A bot runs in production. Something's wrong. Read the scenario, watch the simulated execution trace, identify the flawed step. This is what 80% of RPA support work looks like.
+        </p>
+
+        <div id="debug-puzzle-area" style="display:flex;flex-direction:column;gap:1.5rem;"></div>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────────────────────── -->
+    <!-- SANDBOX MODE                                               -->
+    <!-- ──────────────────────────────────────────────────────── -->
+    <div id="mode-sandbox" class="mode-panel" style="display:none;">
+      <div style="display:flex;gap:2rem;align-items:flex-start;flex-wrap:wrap;">
+        <div style="display:flex;flex-direction:column;gap:1rem;min-width:260px;max-width:300px;flex:0 0 280px;">
+          <div style="font-family:var(--mono);font-size:0.72rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;">// All Blocks</div>
+          <div id="sandbox-palette" style="display:flex;flex-direction:column;gap:0.4rem;"></div>
+
+          <button id="sandbox-export-btn" style="
+            margin-top:1rem;padding:0.7rem 1rem;background:var(--accent);color:var(--bg);
+            font-family:var(--mono);font-size:0.75rem;font-weight:700;letter-spacing:0.1em;
+            text-transform:uppercase;border:none;cursor:pointer;
+            clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
+          ">⬇ Export as SVG</button>
+
+          <button id="sandbox-clear-btn" style="
+            padding:0.7rem 1rem;background:transparent;color:var(--muted);
+            font-family:var(--mono);font-size:0.75rem;letter-spacing:0.1em;
+            text-transform:uppercase;border:1px solid var(--border);cursor:pointer;
+          ">↺ Clear board</button>
+
+          <div style="font-family:var(--mono);font-size:0.72rem;color:var(--muted);line-height:1.7;background:var(--bg3);border:1px solid var(--border);padding:0.75rem;margin-top:0.5rem;">
+            <span style="color:var(--accent3);">// HINT:</span> No tests, no rules. Build whatever architecture you want. Export the result as an SVG diagram you can drop into documentation.
+          </div>
+        </div>
+
+        <div style="flex:1;min-width:300px;">
+          <div style="font-family:var(--mono);font-size:0.72rem;color:var(--muted);margin-bottom:0.75rem;letter-spacing:0.05em;">
+            Free design mode · Blocks: <span id="sandbox-count" style="color:var(--accent);">0</span>
+          </div>
+          <div id="sandbox-board" style="
+            background:var(--bg2);border:1px solid var(--border);
+            min-height:420px;padding:1.5rem;position:relative;
+            display:flex;flex-direction:column;align-items:center;gap:0;
+          ">
+            <div id="sandbox-nodes" style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────────────────────── -->
+    <!-- LEADERBOARD / STATS MODE                                   -->
+    <!-- ──────────────────────────────────────────────────────── -->
+    <div id="mode-leaderboard" class="mode-panel" style="display:none;">
+      <div style="max-width:780px;">
+        <p style="font-family:var(--mono);font-size:0.85rem;color:var(--muted);line-height:1.8;margin-bottom:2rem;">
+          Your local stats — stored in your browser only. No backend, no tracking, no signup.
+        </p>
+
+        <div id="stats-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:2rem;"></div>
+
+        <div style="font-family:var(--mono);font-size:0.72rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.75rem;">// Level history</div>
+        <div id="stats-history" style="display:flex;flex-direction:column;gap:0.4rem;font-family:var(--mono);font-size:0.78rem;"></div>
+
+        <button id="stats-reset-btn" style="
+          margin-top:2rem;padding:0.7rem 1rem;background:transparent;color:#f43f5e;
+          font-family:var(--mono);font-size:0.7rem;letter-spacing:0.1em;
+          text-transform:uppercase;border:1px solid rgba(244,63,94,0.3);cursor:pointer;
+        ">⚠ Reset all stats</button>
+      </div>
+    </div>
+
+  </section>
+
+  <script>
+  (function() {
+
+    // ════════════════════════════════════════════════════════════
+    // BLOCK DEFINITIONS — extended for v2
+    // ════════════════════════════════════════════════════════════
+    const BLOCK_TYPES = {
+      START:     { label: 'START',          color: '#10b981', shape: 'pill',    desc: 'Entry point' },
+      END:       { label: 'END',            color: '#f43f5e', shape: 'pill',    desc: 'Termination' },
+      FETCH:     { label: 'FETCH DATA',     color: '#00d4ff', shape: 'rect',    desc: 'Retrieve data from source' },
+      VALIDATE:  { label: 'VALIDATE',       color: '#f59e0b', shape: 'diamond', desc: 'Check data correctness' },
+      PROCESS:   { label: 'PROCESS',        color: '#7c3aed', shape: 'rect',    desc: 'Core business operation' },
+      LOG:       { label: 'LOG',            color: '#64748b', shape: 'rect',    desc: 'Persist audit entry' },
+      RETRY:     { label: 'RETRY',          color: '#f97316', shape: 'rect',    desc: 'Re-attempt on failure' },
+      NOTIFY:    { label: 'NOTIFY',         color: '#ec4899', shape: 'rect',    desc: 'Send notification' },
+      DECISION:  { label: 'IF / DECISION',  color: '#a3e635', shape: 'diamond', desc: 'Logical branch' },
+      CLEANUP:   { label: 'CLEANUP',        color: '#94a3b8', shape: 'rect',    desc: 'Release resources' },
+      // v2 additions
+      LOOP:      { label: 'FOR EACH LOOP',  color: '#06b6d4', shape: 'rect',    desc: 'Iterate over collection' },
+      PARALLEL:  { label: 'PARALLEL',       color: '#8b5cf6', shape: 'rect',    desc: 'Run branches concurrently' },
+      TIMEOUT:   { label: 'TIMEOUT',        color: '#dc2626', shape: 'rect',    desc: 'Abort if exceeds time limit' },
+      SAP_LOGIN: { label: 'SAP LOGIN',      color: '#0891b2', shape: 'rect',    desc: 'Open SAP GUI session' },
+      SAP_TXN:   { label: 'SAP TRANSACTION', color: '#0891b2', shape: 'rect',   desc: 'Execute SAP transaction' },
+      QUEUE_GET: { label: 'GET QUEUE ITEM', color: '#22d3ee', shape: 'rect',    desc: 'Pull next item from Orchestrator queue' },
+      QUEUE_SET: { label: 'SET STATUS',     color: '#22d3ee', shape: 'rect',    desc: 'Mark queue item Success/Failed' },
+      AGENT:     { label: 'AI AGENT',       color: '#a78bfa', shape: 'rect',    desc: 'LLM-powered decision agent' },
+      EXTRACT:   { label: 'AI EXTRACT',     color: '#a78bfa', shape: 'rect',    desc: 'AI document extraction' },
+      LOCK:      { label: 'ACQUIRE LOCK',   color: '#fb7185', shape: 'rect',    desc: 'Prevent concurrent execution' },
+      RELEASE:   { label: 'RELEASE LOCK',   color: '#fb7185', shape: 'rect',    desc: 'Free lock for other instances' },
+    };
+
+    // ════════════════════════════════════════════════════════════
+    // CAMPAIGN LEVELS — 12 scenarios, multi-domain
+    // ════════════════════════════════════════════════════════════
+    const LEVELS = [
+      // ── BASIC ────────────────────────────────────────────────
+      {
+        domain: 'Basic',
+        framework: 'Linear sequence — simple ETL with no error paths',
+        title: 'Daily SAP invoice export',
+        business: 'Finance team needs yesterday\'s invoices pulled from SAP and transformed into the reporting format. Straight pipeline — no edge cases.',
+        desc: 'Build: fetch → process → terminate.',
+        palette: ['PROCESS','END','START','FETCH'],
+        tests: [
+          { label: 'Starts with START',        fn: f => f[0] === 'START' },
+          { label: 'FETCH before PROCESS',     fn: f => f.indexOf('FETCH') !== -1 && f.indexOf('FETCH') < f.indexOf('PROCESS') },
+          { label: 'Contains PROCESS',         fn: f => f.includes('PROCESS') },
+          { label: 'Ends with END',            fn: f => f[f.length-1] === 'END' },
+          { label: 'No duplicate START',       fn: f => f.filter(x=>x==='START').length === 1 },
+        ]
+      },
+      {
+        domain: 'Basic',
+        framework: 'Linear with validation gate — guard data quality before commit',
+        title: 'Customer master data sync',
+        business: 'Hourly sync between CRM and ERP. Garbage downstream corrupts reports — every record must be validated before landing in the ERP. Audit team needs a log entry per run.',
+        desc: 'Validate before processing, log the result at the end.',
+        palette: ['LOG','VALIDATE','END','PROCESS','FETCH','START'],
+        tests: [
+          { label: 'Starts with START',          fn: f => f[0] === 'START' },
+          { label: 'FETCH before VALIDATE',      fn: f => f.indexOf('FETCH') !== -1 && f.indexOf('FETCH') < f.indexOf('VALIDATE') },
+          { label: 'VALIDATE before PROCESS',    fn: f => f.indexOf('VALIDATE') !== -1 && f.indexOf('VALIDATE') < f.indexOf('PROCESS') },
+          { label: 'LOG after PROCESS',          fn: f => f.indexOf('PROCESS') !== -1 && f.indexOf('LOG') > f.indexOf('PROCESS') },
+          { label: 'Ends with END',              fn: f => f[f.length-1] === 'END' },
+        ]
+      },
+
+      // ── ERROR HANDLING ───────────────────────────────────────
+      {
+        domain: 'Error handling',
+        framework: 'REFramework-style — retry layer wraps transaction processing',
+        title: 'Payment confirmation with flaky API',
+        business: 'Bot integrates with a third-party payment API that drops ~15% of requests. Without retry, ops gets paged nightly. The bot must retry failures, and if still failing — notify and exit gracefully.',
+        desc: 'Add retry after validation and a failure notification before END.',
+        palette: ['NOTIFY','RETRY','START','PROCESS','VALIDATE','END','FETCH'],
+        tests: [
+          { label: 'Starts with START',        fn: f => f[0] === 'START' },
+          { label: 'RETRY after VALIDATE',     fn: f => f.indexOf('RETRY') !== -1 && f.indexOf('RETRY') > f.indexOf('VALIDATE') },
+          { label: 'NOTIFY before END',        fn: f => f.indexOf('NOTIFY') !== -1 && f.indexOf('NOTIFY') < f.indexOf('END') },
+          { label: 'Contains PROCESS',         fn: f => f.includes('PROCESS') },
+          { label: 'Ends with END',            fn: f => f[f.length-1] === 'END' },
+          { label: 'At least 5 blocks',        fn: f => f.length >= 5 },
+        ]
+      },
+      {
+        domain: 'Error handling',
+        framework: 'State machine — branching decisions with explicit failure paths',
+        title: 'Loan application processor',
+        business: 'Each application goes through validation. Clean data → process (approve). Bad data → retry with corrections, notify credit officer for manual review. Decision logic is the core. Audit log mandatory.',
+        desc: 'Validation → decision → process or retry+notify. Log before ending.',
+        palette: ['DECISION','LOG','RETRY','VALIDATE','START','FETCH','PROCESS','END','NOTIFY'],
+        tests: [
+          { label: 'Starts with START',          fn: f => f[0] === 'START' },
+          { label: 'VALIDATE before DECISION',   fn: f => f.indexOf('VALIDATE') !== -1 && f.indexOf('VALIDATE') < f.indexOf('DECISION') },
+          { label: 'DECISION before PROCESS',    fn: f => f.indexOf('DECISION') !== -1 && f.indexOf('DECISION') < f.indexOf('PROCESS') },
+          { label: 'RETRY in flow',              fn: f => f.includes('RETRY') },
+          { label: 'NOTIFY in flow',             fn: f => f.includes('NOTIFY') },
+          { label: 'LOG before END',             fn: f => f.indexOf('LOG') !== -1 && f.indexOf('LOG') < f.indexOf('END') },
+          { label: 'Ends with END',              fn: f => f[f.length-1] === 'END' },
+        ]
+      },
+
+      // ── ITERATION ────────────────────────────────────────────
+      {
+        domain: 'Iteration',
+        framework: 'FOR EACH loop — process N items from a queue or dataset',
+        title: 'Batch invoice posting (transactional)',
+        business: 'Process 200 invoices from an Orchestrator queue. Each item is independent — pull, validate, post to SAP, mark Success/Failed. One failed item must not crash the entire batch.',
+        desc: 'Loop over queue items: get → validate → process → set status. Log at the end.',
+        palette: ['QUEUE_SET','LOG','PROCESS','START','VALIDATE','QUEUE_GET','LOOP','END'],
+        tests: [
+          { label: 'Starts with START',           fn: f => f[0] === 'START' },
+          { label: 'LOOP present',                fn: f => f.includes('LOOP') },
+          { label: 'GET QUEUE ITEM after LOOP',   fn: f => f.indexOf('QUEUE_GET') !== -1 && f.indexOf('QUEUE_GET') > f.indexOf('LOOP') },
+          { label: 'VALIDATE before PROCESS',     fn: f => f.indexOf('VALIDATE') !== -1 && f.indexOf('VALIDATE') < f.indexOf('PROCESS') },
+          { label: 'SET STATUS after PROCESS',    fn: f => f.indexOf('QUEUE_SET') !== -1 && f.indexOf('QUEUE_SET') > f.indexOf('PROCESS') },
+          { label: 'LOG before END',              fn: f => f.indexOf('LOG') !== -1 && f.indexOf('LOG') < f.indexOf('END') },
+          { label: 'Ends with END',               fn: f => f[f.length-1] === 'END' },
+        ]
+      },
+
+      // ── PARALLEL / TIMEOUT ───────────────────────────────────
+      {
+        domain: 'Parallel',
+        framework: 'Parallel execution with timeout — concurrent enrichment from multiple sources',
+        title: 'Multi-source data enrichment',
+        business: 'Customer record needs enrichment from CRM, billing API, and credit bureau. All three are slow but independent — running sequentially takes 45s per record. Run them in parallel with a 10s timeout each to keep SLA.',
+        desc: 'Fetch → parallel enrichment with timeout → merge → process.',
+        palette: ['END','TIMEOUT','PARALLEL','PROCESS','FETCH','START','LOG'],
+        tests: [
+          { label: 'Starts with START',           fn: f => f[0] === 'START' },
+          { label: 'FETCH before PARALLEL',       fn: f => f.indexOf('FETCH') !== -1 && f.indexOf('FETCH') < f.indexOf('PARALLEL') },
+          { label: 'PARALLEL block present',      fn: f => f.includes('PARALLEL') },
+          { label: 'TIMEOUT after PARALLEL',      fn: f => f.indexOf('TIMEOUT') !== -1 && f.indexOf('TIMEOUT') > f.indexOf('PARALLEL') },
+          { label: 'PROCESS after enrichment',    fn: f => f.indexOf('PROCESS') > f.indexOf('TIMEOUT') },
+          { label: 'LOG before END',              fn: f => f.indexOf('LOG') !== -1 && f.indexOf('LOG') < f.indexOf('END') },
+          { label: 'Ends with END',               fn: f => f[f.length-1] === 'END' },
+        ]
+      },
+
+      // ── CONCURRENCY ──────────────────────────────────────────
+      {
+        domain: 'Concurrency',
+        framework: 'Lock-protected critical section — prevent race conditions in shared resource access',
+        title: 'Shared queue: prevent duplicate posting',
+        business: 'Multiple bot instances run in parallel and could pick the same record. Without a lock, two bots post the same invoice twice. Acquire lock before fetching, release after status update — even on failure.',
+        desc: 'Acquire lock → fetch → validate → process → release lock → end.',
+        palette: ['RELEASE','LOCK','VALIDATE','START','END','PROCESS','FETCH','LOG'],
+        tests: [
+          { label: 'Starts with START',           fn: f => f[0] === 'START' },
+          { label: 'LOCK before FETCH',           fn: f => f.indexOf('LOCK') !== -1 && f.indexOf('LOCK') < f.indexOf('FETCH') },
+          { label: 'VALIDATE before PROCESS',     fn: f => f.indexOf('VALIDATE') !== -1 && f.indexOf('VALIDATE') < f.indexOf('PROCESS') },
+          { label: 'RELEASE after PROCESS',       fn: f => f.indexOf('RELEASE') !== -1 && f.indexOf('RELEASE') > f.indexOf('PROCESS') },
+          { label: 'LOG before END',              fn: f => f.indexOf('LOG') !== -1 && f.indexOf('LOG') < f.indexOf('END') },
+          { label: 'Ends with END',               fn: f => f[f.length-1] === 'END' },
+        ]
+      },
+
+      // ── SAP SPECIFIC ─────────────────────────────────────────
+      {
+        domain: 'SAP',
+        framework: 'SAP FI workflow — login + transaction execution + cleanup of GUI session',
+        title: 'SAP FI: vendor invoice posting',
+        business: 'Bot logs into SAP, opens transaction FBV0, enters vendor invoice data, posts the document, captures the document number, logs out cleanly. Sessions left open lock production users out.',
+        desc: 'Login → fetch invoice → SAP transaction → cleanup (logout) → end.',
+        palette: ['CLEANUP','SAP_TXN','SAP_LOGIN','FETCH','START','END','LOG'],
+        tests: [
+          { label: 'Starts with START',           fn: f => f[0] === 'START' },
+          { label: 'SAP_LOGIN early',             fn: f => f.indexOf('SAP_LOGIN') !== -1 && f.indexOf('SAP_LOGIN') <= 2 },
+          { label: 'FETCH before SAP_TXN',        fn: f => f.indexOf('FETCH') !== -1 && f.indexOf('FETCH') < f.indexOf('SAP_TXN') },
+          { label: 'CLEANUP after SAP_TXN',       fn: f => f.indexOf('CLEANUP') !== -1 && f.indexOf('CLEANUP') > f.indexOf('SAP_TXN') },
+          { label: 'LOG before END',              fn: f => f.indexOf('LOG') !== -1 && f.indexOf('LOG') < f.indexOf('END') },
+          { label: 'Ends with END',               fn: f => f[f.length-1] === 'END' },
+        ]
+      },
+      {
+        domain: 'SAP',
+        framework: 'SAP MM batch — loop through purchase orders with per-item validation',
+        title: 'SAP MM: bulk PO confirmation',
+        business: 'Procurement team confirms 50–80 purchase orders daily. Bot logs in, loops through orders from queue, executes ME21N variants per item, sets queue status. Single PO failure must not block the rest.',
+        desc: 'Login → loop: get queue → validate → SAP transaction → set status. Logout at end.',
+        palette: ['QUEUE_SET','SAP_TXN','VALIDATE','START','SAP_LOGIN','LOOP','QUEUE_GET','CLEANUP','END','LOG'],
+        tests: [
+          { label: 'Starts with START',           fn: f => f[0] === 'START' },
+          { label: 'SAP_LOGIN before LOOP',       fn: f => f.indexOf('SAP_LOGIN') !== -1 && f.indexOf('SAP_LOGIN') < f.indexOf('LOOP') },
+          { label: 'LOOP present',                fn: f => f.includes('LOOP') },
+          { label: 'QUEUE_GET inside loop area',  fn: f => f.indexOf('QUEUE_GET') !== -1 && f.indexOf('QUEUE_GET') > f.indexOf('LOOP') },
+          { label: 'VALIDATE before SAP_TXN',     fn: f => f.indexOf('VALIDATE') !== -1 && f.indexOf('VALIDATE') < f.indexOf('SAP_TXN') },
+          { label: 'QUEUE_SET after SAP_TXN',     fn: f => f.indexOf('QUEUE_SET') !== -1 && f.indexOf('QUEUE_SET') > f.indexOf('SAP_TXN') },
+          { label: 'CLEANUP before END',          fn: f => f.indexOf('CLEANUP') !== -1 && f.indexOf('CLEANUP') < f.indexOf('END') },
+          { label: 'Ends with END',               fn: f => f[f.length-1] === 'END' },
+        ]
+      },
+
+      // ── AI / AGENT ──────────────────────────────────────────
+      {
+        domain: 'AI Automation',
+        framework: 'AI-augmented extraction — replace fragile OCR with LLM-based document parsing',
+        title: 'Intelligent invoice extraction',
+        business: 'Incoming invoices arrive as PDFs from 200+ vendors — each with different layouts. Rule-based OCR fails on 30% of them. Use AI extraction to pull structured data, validate against rules, then process. Log every extraction for retraining.',
+        desc: 'Fetch document → AI extract → validate → process → log result.',
+        palette: ['LOG','PROCESS','VALIDATE','EXTRACT','FETCH','START','END'],
+        tests: [
+          { label: 'Starts with START',           fn: f => f[0] === 'START' },
+          { label: 'FETCH before EXTRACT',        fn: f => f.indexOf('FETCH') !== -1 && f.indexOf('FETCH') < f.indexOf('EXTRACT') },
+          { label: 'AI EXTRACT present',          fn: f => f.includes('EXTRACT') },
+          { label: 'VALIDATE after EXTRACT',      fn: f => f.indexOf('VALIDATE') !== -1 && f.indexOf('VALIDATE') > f.indexOf('EXTRACT') },
+          { label: 'PROCESS after VALIDATE',      fn: f => f.indexOf('PROCESS') > f.indexOf('VALIDATE') },
+          { label: 'LOG before END',              fn: f => f.indexOf('LOG') !== -1 && f.indexOf('LOG') < f.indexOf('END') },
+          { label: 'Ends with END',               fn: f => f[f.length-1] === 'END' },
+        ]
+      },
+      {
+        domain: 'AI Automation',
+        framework: 'Agent-driven routing — LLM agent decides next action based on extracted content',
+        title: 'AI agent: support ticket triage',
+        business: 'Customer emails arrive in shared mailbox. AI agent reads each one, classifies (billing/technical/refund), routes to the right team queue. High-urgency cases trigger an immediate notification. Every decision logged for audit.',
+        desc: 'Fetch email → AI extract → AI agent decision → process route → notify if urgent → log.',
+        palette: ['NOTIFY','LOG','AGENT','PROCESS','EXTRACT','DECISION','FETCH','START','END'],
+        tests: [
+          { label: 'Starts with START',           fn: f => f[0] === 'START' },
+          { label: 'FETCH before EXTRACT',        fn: f => f.indexOf('FETCH') !== -1 && f.indexOf('FETCH') < f.indexOf('EXTRACT') },
+          { label: 'AI EXTRACT before AGENT',     fn: f => f.indexOf('EXTRACT') !== -1 && f.indexOf('EXTRACT') < f.indexOf('AGENT') },
+          { label: 'AI AGENT before DECISION',    fn: f => f.indexOf('AGENT') !== -1 && f.indexOf('AGENT') < f.indexOf('DECISION') },
+          { label: 'DECISION before PROCESS',     fn: f => f.indexOf('DECISION') !== -1 && f.indexOf('DECISION') < f.indexOf('PROCESS') },
+          { label: 'NOTIFY present',              fn: f => f.includes('NOTIFY') },
+          { label: 'LOG before END',              fn: f => f.indexOf('LOG') !== -1 && f.indexOf('LOG') < f.indexOf('END') },
+          { label: 'Ends with END',               fn: f => f[f.length-1] === 'END' },
+        ]
+      },
+
+      // ── PRODUCTION-GRADE ─────────────────────────────────────
+      {
+        domain: 'Production',
+        framework: 'Full REFramework pattern — Init, GetTransactionData, Process, EndProcess with all error layers',
+        title: 'End-of-month reconciliation (full prod)',
+        business: 'Runs at 2 AM last day of month. Acquires lock, logs into SAP, loops through thousands of records, validates each, branches on outcome, processes successes, retries failures, releases lock, cleans up, notifies finance team, writes full audit log. The kind of bot leadership depends on.',
+        desc: 'Production flow: lock + login + loop (validate, decide, process, retry) + release + cleanup + notify + log.',
+        palette: ['CLEANUP','LOG','NOTIFY','START','DECISION','END','VALIDATE','LOOP','RETRY','PROCESS','SAP_LOGIN','LOCK','RELEASE','FETCH'],
+        tests: [
+          { label: 'Starts with START',           fn: f => f[0] === 'START' },
+          { label: 'LOCK acquired early',         fn: f => f.indexOf('LOCK') !== -1 && f.indexOf('LOCK') <= 3 },
+          { label: 'SAP_LOGIN after LOCK',        fn: f => f.indexOf('SAP_LOGIN') !== -1 && f.indexOf('SAP_LOGIN') > f.indexOf('LOCK') },
+          { label: 'LOOP present',                fn: f => f.includes('LOOP') },
+          { label: 'VALIDATE before DECISION',    fn: f => f.indexOf('VALIDATE') !== -1 && f.indexOf('VALIDATE') < f.indexOf('DECISION') },
+          { label: 'RETRY in flow',               fn: f => f.includes('RETRY') },
+          { label: 'RELEASE before CLEANUP',      fn: f => f.indexOf('RELEASE') !== -1 && f.indexOf('RELEASE') < f.indexOf('CLEANUP') },
+          { label: 'NOTIFY in flow',              fn: f => f.includes('NOTIFY') },
+          { label: 'LOG before END',              fn: f => f.indexOf('LOG') !== -1 && f.indexOf('LOG') < f.indexOf('END') },
+          { label: 'Ends with END',               fn: f => f[f.length-1] === 'END' },
+          { label: 'At least 10 blocks',          fn: f => f.length >= 10 },
+        ]
+      },
+    ];
+
+    // ════════════════════════════════════════════════════════════
+    // DEBUG MODE PUZZLES
+    // ════════════════════════════════════════════════════════════
+    const DEBUG_PUZZLES = [
+      {
+        title: 'Bot times out at 100% CPU',
+        scenario: 'Production bot processes 500 records nightly. Last night it never finished — ran until the 6 AM kill timer. CPU stayed at 100%.',
+        flow: ['START','FETCH','LOOP','VALIDATE','PROCESS','LOG','END'],
+        bugIndex: 2,
+        explanation: 'LOOP has no exit condition because GET QUEUE ITEM is missing — the loop iterates forever on the same fetched dataset reference. Add QUEUE_GET inside the loop, or use FETCH inside the loop with pagination.',
+        options: [0, 2, 4, 5],
+        optionLabels: ['START block', 'LOOP block (no exit)', 'PROCESS block', 'LOG block'],
+      },
+      {
+        title: 'Duplicate invoices posted to SAP',
+        scenario: 'Finance reports 14 duplicate invoice postings this week. Bot runs every 15 minutes from 3 machines.',
+        flow: ['START','FETCH','VALIDATE','PROCESS','SAP_TXN','LOG','END'],
+        bugIndex: 1,
+        explanation: 'No LOCK before FETCH means all 3 bot instances pull the same queue items simultaneously. Each runs the SAP transaction independently → duplicate postings. Add ACQUIRE LOCK before FETCH, RELEASE LOCK after the transaction.',
+        options: [0, 1, 3, 4],
+        optionLabels: ['START block', 'FETCH without lock', 'PROCESS block', 'SAP_TXN block'],
+      },
+      {
+        title: 'Bot crashes on one bad record, drops the whole batch',
+        scenario: 'Bot processes 200 invoices nightly. Last night, record #47 had a malformed VAT number. Bot crashed and records 48–200 never ran. Ops paged at 4 AM.',
+        flow: ['START','FETCH','LOOP','VALIDATE','PROCESS','QUEUE_SET','LOG','END'],
+        bugIndex: 3,
+        explanation: 'VALIDATE is inside the loop but with no RETRY or DECISION around it — a validation exception propagates up and kills the loop. Wrap the per-item logic with RETRY (Try/Catch in REFramework) so one bad item doesn\'t kill the batch.',
+        options: [2, 3, 4, 5],
+        optionLabels: ['LOOP block', 'VALIDATE (no error wrapper)', 'PROCESS block', 'QUEUE_SET block'],
+      },
+      {
+        title: 'AI extraction returns garbage 40% of the time',
+        scenario: 'New AI-powered invoice extraction bot deployed last week. ~40% of extractions land in finance with wrong vendor names, wrong amounts, or wrong dates.',
+        flow: ['START','FETCH','EXTRACT','PROCESS','LOG','END'],
+        bugIndex: 3,
+        explanation: 'PROCESS happens directly after EXTRACT with no VALIDATE step. LLM outputs are non-deterministic and need schema validation against expected types, ranges, and reference data. Insert VALIDATE between EXTRACT and PROCESS — reject or escalate failed extractions.',
+        options: [1, 2, 3, 4],
+        optionLabels: ['FETCH block', 'EXTRACT block', 'PROCESS (no validation)', 'LOG block'],
+      },
+      {
+        title: 'Bot leaves SAP sessions hanging',
+        scenario: 'IT reports 18 stale SAP GUI sessions on the bot machine by Friday afternoon. Each session holds a license seat. Production users locked out.',
+        flow: ['START','SAP_LOGIN','FETCH','SAP_TXN','LOG','END'],
+        bugIndex: 5,
+        explanation: 'END comes directly after LOG — no CLEANUP step to close the SAP session. On bot exit (normal or crash) the session stays open until SAP times out. Add CLEANUP before END to call session.close() / logout transaction.',
+        options: [1, 3, 4, 5],
+        optionLabels: ['SAP_LOGIN', 'SAP_TXN', 'LOG block', 'END (no cleanup before it)'],
+      },
+    ];
+
+    // ════════════════════════════════════════════════════════════
+    // STATE
+    // ════════════════════════════════════════════════════════════
+    let currentLevel = 0;
+    let flow = [];
+    let fgScore = 0;
+    let levelStartTime = 0;
+    let timerInterval = null;
+    let activeDomainFilter = 'All';
+    let filteredLevels = LEVELS.map((_, i) => i); // visible level indices
+    let sandboxFlow = [];
+
+    // ════════════════════════════════════════════════════════════
+    // STATS — localStorage
+    // ════════════════════════════════════════════════════════════
+    const STATS_KEY = 'mlaszczyk-flow-stats';
+
+    function loadStats() {
+      try {
+        const raw = localStorage.getItem(STATS_KEY);
+        return raw ? JSON.parse(raw) : { completed: {}, totalScore: 0, attempts: 0, debugsSolved: 0 };
+      } catch { return { completed: {}, totalScore: 0, attempts: 0, debugsSolved: 0 }; }
+    }
+    function saveStats(s) {
+      try { localStorage.setItem(STATS_KEY, JSON.stringify(s)); } catch {}
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // DOM REFS
+    // ════════════════════════════════════════════════════════════
+    const paletteEl    = document.getElementById('palette');
+    const nodesEl      = document.getElementById('flow-nodes');
+    const testsEl      = document.getElementById('tests-panel');
+    const taskEl       = document.getElementById('task-desc');
+    const businessEl   = document.getElementById('business-case');
+    const frameworkEl  = document.getElementById('framework-rec');
+    const frameworkWrap= document.getElementById('framework-rec-wrapper');
+    const resultEl     = document.getElementById('flow-result');
+    const fgLevelEl    = document.getElementById('fg-level');
+    const fgScoreEl    = document.getElementById('fg-score');
+    const fgTimerEl    = document.getElementById('fg-timer');
+    const domainFilterEl = document.getElementById('domain-filter');
+
+    // ════════════════════════════════════════════════════════════
+    // TIMER
+    // ════════════════════════════════════════════════════════════
+    function startTimer() {
+      levelStartTime = Date.now();
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        const elapsed = Math.floor((Date.now() - levelStartTime) / 1000);
+        const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
+        const s = String(elapsed % 60).padStart(2, '0');
+        fgTimerEl.textContent = `${m}:${s}`;
+      }, 250);
+    }
+    function stopTimer() {
+      if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+      return Math.floor((Date.now() - levelStartTime) / 1000);
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // RENDER: DOMAIN FILTER
+    // ════════════════════════════════════════════════════════════
+    function renderDomainFilter() {
+      const domains = ['All', ...new Set(LEVELS.map(l => l.domain))];
+      domainFilterEl.innerHTML = '';
+      domains.forEach(d => {
+        const btn = document.createElement('button');
+        const active = d === activeDomainFilter;
+        btn.style.cssText = `
+          padding:0.35rem 0.7rem;
+          background:${active ? 'var(--accent)' : 'transparent'};
+          color:${active ? 'var(--bg)' : 'var(--muted)'};
+          border:1px solid ${active ? 'var(--accent)' : 'var(--border)'};
+          font-family:var(--mono);font-size:0.66rem;letter-spacing:0.05em;
+          cursor:pointer;text-transform:uppercase;
+        `;
+        btn.textContent = d;
+        btn.onclick = () => {
+          activeDomainFilter = d;
+          filteredLevels = d === 'All'
+            ? LEVELS.map((_, i) => i)
+            : LEVELS.map((l, i) => l.domain === d ? i : -1).filter(i => i >= 0);
+          currentLevel = filteredLevels[0] || 0;
+          loadLevel();
+        };
+        domainFilterEl.appendChild(btn);
+      });
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // RENDER: PALETTE
+    // ════════════════════════════════════════════════════════════
+    function renderPalette() {
+      paletteEl.innerHTML = '';
+      const lvl = LEVELS[currentLevel];
+      lvl.palette.forEach(key => {
+        const bt = BLOCK_TYPES[key];
+        const btn = document.createElement('button');
+        btn.style.cssText = `
+          padding:0.5rem 0.75rem;background:${bt.color}18;
+          border:1px solid ${bt.color}55;color:${bt.color};
+          font-family:var(--mono);font-size:0.68rem;font-weight:700;
+          letter-spacing:0.06em;cursor:pointer;text-align:left;
+          transition:background 0.2s;
+        `;
+        btn.textContent = bt.label;
+        btn.title = bt.desc;
+        btn.onmouseenter = () => btn.style.background = bt.color + '33';
+        btn.onmouseleave = () => btn.style.background = bt.color + '18';
+        btn.onclick = () => addBlock(key);
+        paletteEl.appendChild(btn);
+      });
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // RENDER: FLOW NODES — reused by campaign + sandbox + debug
+    // ════════════════════════════════════════════════════════════
+    function renderNodes(targetEl, flowArr, onClickIdx, opts = {}) {
+      const { highlightIdx = -1, errorIdx = -1, readOnly = false } = opts;
+      targetEl.innerHTML = '';
+
+      if (flowArr.length === 0) {
+        targetEl.innerHTML = '<div style="font-family:var(--mono);font-size:0.75rem;color:var(--border);padding:3rem 0;text-align:center;">Click a block from the palette →</div>';
+        return;
+      }
+
+      flowArr.forEach((key, i) => {
+        const bt = BLOCK_TYPES[key];
+
+        if (i > 0) {
+          const line = document.createElement('div');
+          line.style.cssText = `width:2px;height:28px;background:linear-gradient(${BLOCK_TYPES[flowArr[i-1]].color},${bt.color});opacity:0.6;`;
+          targetEl.appendChild(line);
+
+          const arrow = document.createElement('div');
+          arrow.style.cssText = `width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:8px solid ${bt.color};opacity:0.8;margin-top:-1px;`;
+          targetEl.appendChild(arrow);
+        }
+
+        const node = document.createElement('div');
+        const isDiamond = bt.shape === 'diamond';
+        const isPill = bt.shape === 'pill';
+        const isError = i === errorIdx;
+        const isHighlight = i === highlightIdx;
+
+        const borderColor = isError ? '#ef4444' : (isHighlight ? '#fbbf24' : bt.color);
+        const shadow = isError
+          ? '0 0 25px rgba(239,68,68,0.6)'
+          : (isHighlight ? '0 0 25px rgba(251,191,36,0.5)' : `0 0 12px ${bt.color}33`);
+
+        node.style.cssText = `
+          position:relative;display:flex;align-items:center;justify-content:center;
+          min-width:180px;padding:0.6rem 1.25rem;
+          background:${bt.color}18;border:2px solid ${borderColor};
+          color:${bt.color};font-family:var(--mono);font-size:0.7rem;font-weight:700;
+          letter-spacing:0.06em;${readOnly ? '' : 'cursor:pointer;'}user-select:none;
+          transition:background 0.15s;
+          ${isPill ? 'border-radius:99px;' : ''}
+          ${isDiamond ? 'transform:rotate(45deg);width:100px;height:100px;min-width:0;padding:0;border-radius:4px;' : ''}
+          box-shadow:${shadow};
+        `;
+
+        if (isDiamond) {
+          const inner = document.createElement('div');
+          inner.style.cssText = `transform:rotate(-45deg);font-family:var(--mono);font-size:0.58rem;font-weight:700;color:${bt.color};text-align:center;line-height:1.3;padding:0 4px;`;
+          inner.textContent = bt.label;
+          node.appendChild(inner);
+        } else {
+          node.textContent = bt.label;
+        }
+
+        const badge = document.createElement('span');
+        badge.style.cssText = `
+          position:absolute;top:-8px;left:-8px;
+          width:18px;height:18px;border-radius:50%;
+          background:var(--bg2);border:1px solid ${borderColor};
+          font-family:var(--mono);font-size:0.6rem;color:${borderColor};
+          display:flex;align-items:center;justify-content:center;
+          ${isDiamond ? 'transform:rotate(-45deg);' : ''}
+        `;
+        badge.textContent = i + 1;
+        node.appendChild(badge);
+
+        if (!readOnly) {
+          node.onmouseenter = () => { if (!isDiamond) node.style.background = bt.color + '33'; };
+          node.onmouseleave = () => { node.style.background = bt.color + '18'; };
+          node.onclick = () => onClickIdx(i);
+          node.title = `Click to remove: ${bt.label}`;
+        }
+
+        if (isDiamond) {
+          const wrap = document.createElement('div');
+          wrap.style.cssText = 'display:flex;align-items:center;justify-content:center;width:100%;padding:10px 0;';
+          wrap.appendChild(node);
+          targetEl.appendChild(wrap);
+        } else {
+          targetEl.appendChild(node);
+        }
+      });
+    }
+
+    function renderFlow() {
+      renderNodes(nodesEl, flow, removeBlock);
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // RENDER: TESTS
+    // ════════════════════════════════════════════════════════════
+    function renderTests(results = null) {
+      testsEl.innerHTML = '';
+      const lvl = LEVELS[currentLevel];
+      lvl.tests.forEach((t, i) => {
+        const div = document.createElement('div');
+        let icon = '○', color = 'var(--muted)';
+        if (results) {
+          icon = results[i] ? '✓' : '✗';
+          color = results[i] ? 'var(--accent3)' : '#f43f5e';
+        }
+        div.style.cssText = `color:${color};padding:0.2rem 0;transition:color 0.3s;`;
+        div.textContent = `${icon} ${t.label}`;
+        testsEl.appendChild(div);
+      });
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // ADD / REMOVE
+    // ════════════════════════════════════════════════════════════
+    function addBlock(key) {
+      flow.push(key);
+      resultEl.textContent = '';
+      renderFlow();
+      renderTests();
+    }
+    function removeBlock(i) {
+      flow.splice(i, 1);
+      resultEl.textContent = '';
+      renderFlow();
+      renderTests();
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // RUN TESTS — campaign mode
+    // ════════════════════════════════════════════════════════════
+    document.getElementById('run-btn').onclick = () => {
+      if (flow.length === 0) {
+        resultEl.innerHTML = '<span style="color:#f43f5e;font-family:var(--mono);font-size:0.75rem;">Add some blocks first!</span>';
+        return;
+      }
+      const lvl = LEVELS[currentLevel];
+      const results = lvl.tests.map(t => { try { return t.fn(flow); } catch { return false; } });
+      renderTests(results);
+
+      const passed = results.filter(Boolean).length;
+      const total  = results.length;
+
+      setTimeout(() => {
+        if (passed === total) {
+          const elapsed = stopTimer();
+          const timeBonus = Math.max(0, 300 - elapsed);
+          const earned = (currentLevel + 1) * 100 + timeBonus;
+          fgScore += earned;
+          fgScoreEl.textContent = fgScore;
+
+          // Save stats
+          const stats = loadStats();
+          stats.completed[currentLevel] = { time: elapsed, score: earned, ts: Date.now() };
+          stats.totalScore = (stats.totalScore || 0) + earned;
+          stats.attempts = (stats.attempts || 0) + 1;
+          saveStats(stats);
+
+          resultEl.innerHTML = `<span style="color:var(--accent3);font-family:var(--mono);font-size:0.8rem;font-weight:700;">✓ ALL TESTS PASSED · ⏱ ${elapsed}s · +${earned}pts</span>`;
+
+          const idx = filteredLevels.indexOf(currentLevel);
+          if (idx >= 0 && idx < filteredLevels.length - 1) {
+            setTimeout(() => {
+              currentLevel = filteredLevels[idx + 1];
+              flow = [];
+              loadLevel();
+            }, 2000);
+          } else {
+            setTimeout(() => {
+              resultEl.innerHTML = `<span style="color:var(--accent);font-family:var(--mono);font-size:0.8rem;font-weight:700;">🏆 DOMAIN COMPLETE · Total: ${fgScore}pts</span>`;
+            }, 400);
+          }
+        } else {
+          resultEl.innerHTML = `<span style="color:#f59e0b;font-family:var(--mono);font-size:0.75rem;">${passed}/${total} tests passed — fix your flow</span>`;
+        }
+      }, 300);
+    };
+
+    document.getElementById('reset-btn').onclick = () => {
+      flow = [];
+      resultEl.textContent = '';
+      renderFlow();
+      renderTests();
+    };
+
+    // ════════════════════════════════════════════════════════════
+    // LOAD LEVEL
+    // ════════════════════════════════════════════════════════════
+    function loadLevel() {
+      const lvl = LEVELS[currentLevel];
+      fgLevelEl.textContent = `${filteredLevels.indexOf(currentLevel) + 1}/${filteredLevels.length}`;
+      businessEl.innerHTML = `<strong style="color:var(--accent);display:block;margin-bottom:0.3rem;font-size:0.85rem;">${lvl.title}</strong>${lvl.business}`;
+      taskEl.innerHTML = `<span style="color:var(--accent3);">// TASK:</span> ${lvl.desc}`;
+
+      if (lvl.framework) {
+        frameworkEl.textContent = lvl.framework;
+        frameworkWrap.style.display = 'block';
+      } else {
+        frameworkWrap.style.display = 'none';
+      }
+
+      flow = [];
+      renderDomainFilter();
+      renderPalette();
+      renderFlow();
+      renderTests();
+      resultEl.textContent = '';
+      startTimer();
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // DEBUG MODE
+    // ════════════════════════════════════════════════════════════
+    function renderDebugMode() {
+      const wrap = document.getElementById('debug-puzzle-area');
+      wrap.innerHTML = '';
+
+      DEBUG_PUZZLES.forEach((puzzle, pIdx) => {
+        const card = document.createElement('div');
+        card.style.cssText = 'background:var(--bg2);border:1px solid var(--border);padding:1.5rem;';
+
+        const num = document.createElement('div');
+        num.style.cssText = 'font-family:var(--mono);font-size:0.7rem;color:var(--muted);margin-bottom:0.5rem;letter-spacing:0.1em;';
+        num.textContent = `// CASE #${pIdx + 1}`;
+        card.appendChild(num);
+
+        const title = document.createElement('h3');
+        title.style.cssText = 'font-size:1.1rem;margin-bottom:0.5rem;';
+        title.textContent = puzzle.title;
+        card.appendChild(title);
+
+        const scenario = document.createElement('p');
+        scenario.style.cssText = 'font-family:var(--mono);font-size:0.78rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem;';
+        scenario.textContent = puzzle.scenario;
+        card.appendChild(scenario);
+
+        // Flow display
+        const flowDisplay = document.createElement('div');
+        flowDisplay.style.cssText = 'background:var(--bg);border:1px solid var(--border);padding:1.25rem;margin-bottom:1.5rem;display:flex;flex-direction:column;align-items:center;';
+        const flowNodes = document.createElement('div');
+        flowNodes.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:0;width:100%;';
+        flowDisplay.appendChild(flowNodes);
+        card.appendChild(flowDisplay);
+
+        // Question + options
+        const q = document.createElement('div');
+        q.style.cssText = 'font-family:var(--mono);font-size:0.78rem;color:var(--accent);margin-bottom:0.75rem;';
+        q.textContent = '?> Which block is the bug?';
+        card.appendChild(q);
+
+        const optsWrap = document.createElement('div');
+        optsWrap.style.cssText = 'display:flex;flex-direction:column;gap:0.5rem;';
+
+        const stateObj = { solved: false };
+
+        puzzle.options.forEach((blockIdx, optIdx) => {
+          const btn = document.createElement('button');
+          btn.style.cssText = `
+            padding:0.6rem 1rem;text-align:left;
+            background:var(--bg3);border:1px solid var(--border);
+            color:var(--text);font-family:var(--mono);font-size:0.78rem;
+            cursor:pointer;transition:all 0.2s;
+          `;
+          btn.textContent = `→ ${puzzle.optionLabels[optIdx]}`;
+          btn.onmouseenter = () => { if (!stateObj.solved) btn.style.borderColor = 'var(--accent)'; };
+          btn.onmouseleave = () => { if (!stateObj.solved) btn.style.borderColor = 'var(--border)'; };
+          btn.onclick = () => {
+            if (stateObj.solved) return;
+            const correct = blockIdx === puzzle.bugIndex;
+            if (correct) {
+              stateObj.solved = true;
+              btn.style.background = 'rgba(16,185,129,0.15)';
+              btn.style.borderColor = 'var(--accent3)';
+              btn.style.color = 'var(--accent3)';
+              btn.textContent = `✓ ${puzzle.optionLabels[optIdx]}`;
+              renderNodes(flowNodes, puzzle.flow, () => {}, { errorIdx: puzzle.bugIndex, readOnly: true });
+
+              const expl = document.createElement('div');
+              expl.style.cssText = 'margin-top:1rem;padding:1rem;background:rgba(16,185,129,0.05);border-left:3px solid var(--accent3);font-family:var(--mono);font-size:0.78rem;line-height:1.7;color:var(--text);';
+              expl.innerHTML = `<strong style="color:var(--accent3);">SOLVED · </strong>${puzzle.explanation}`;
+              card.appendChild(expl);
+
+              const stats = loadStats();
+              stats.debugsSolved = (stats.debugsSolved || 0) + 1;
+              stats.totalScore = (stats.totalScore || 0) + 200;
+              saveStats(stats);
+            } else {
+              btn.style.background = 'rgba(244,63,94,0.1)';
+              btn.style.borderColor = '#f43f5e';
+              btn.style.color = '#f43f5e';
+              btn.textContent = `✗ ${puzzle.optionLabels[optIdx]} — wrong, keep looking`;
+              setTimeout(() => {
+                btn.style.background = 'var(--bg3)';
+                btn.style.borderColor = 'var(--border)';
+                btn.style.color = 'var(--text)';
+                btn.textContent = `→ ${puzzle.optionLabels[optIdx]}`;
+              }, 2200);
+            }
+          };
+          optsWrap.appendChild(btn);
+        });
+        card.appendChild(optsWrap);
+
+        renderNodes(flowNodes, puzzle.flow, () => {}, { readOnly: true });
+        wrap.appendChild(card);
+      });
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // SANDBOX MODE
+    // ════════════════════════════════════════════════════════════
+    function renderSandboxPalette() {
+      const p = document.getElementById('sandbox-palette');
+      p.innerHTML = '';
+      Object.keys(BLOCK_TYPES).forEach(key => {
+        const bt = BLOCK_TYPES[key];
+        const btn = document.createElement('button');
+        btn.style.cssText = `
+          padding:0.45rem 0.7rem;background:${bt.color}18;
+          border:1px solid ${bt.color}55;color:${bt.color};
+          font-family:var(--mono);font-size:0.66rem;font-weight:700;
+          letter-spacing:0.05em;cursor:pointer;text-align:left;
+          transition:background 0.2s;
+        `;
+        btn.textContent = bt.label;
+        btn.title = bt.desc;
+        btn.onclick = () => {
+          sandboxFlow.push(key);
+          renderSandbox();
+        };
+        p.appendChild(btn);
+      });
+    }
+
+    function renderSandbox() {
+      const sbNodes = document.getElementById('sandbox-nodes');
+      renderNodes(sbNodes, sandboxFlow, (i) => {
+        sandboxFlow.splice(i, 1);
+        renderSandbox();
+      });
+      document.getElementById('sandbox-count').textContent = sandboxFlow.length;
+    }
+
+    document.getElementById('sandbox-clear-btn').onclick = () => {
+      sandboxFlow = [];
+      renderSandbox();
+    };
+
+    document.getElementById('sandbox-export-btn').onclick = () => {
+      if (sandboxFlow.length === 0) {
+        alert('Add some blocks first.');
+        return;
+      }
+
+      // Build SVG manually
+      const W = 400;
+      const blockH = 50;
+      const gap = 30;
+      const nodeCount = sandboxFlow.length;
+      const H = nodeCount * blockH + (nodeCount - 1) * gap + 80;
+
+      let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" style="background:#0d1117">`;
+      svg += `<text x="20" y="30" font-family="monospace" font-size="11" fill="#00d4ff">// RPA Flow — Sandbox Export</text>`;
+
+      sandboxFlow.forEach((key, i) => {
+        const bt = BLOCK_TYPES[key];
+        const y = 50 + i * (blockH + gap);
+        const x = W / 2;
+        const w = 200;
+        const isDiamond = bt.shape === 'diamond';
+
+        if (i > 0) {
+          const py = y - gap + 10;
+          svg += `<line x1="${x}" y1="${py}" x2="${x}" y2="${y}" stroke="${bt.color}" stroke-width="2" opacity="0.6"/>`;
+          svg += `<polygon points="${x},${y} ${x-5},${y-6} ${x+5},${y-6}" fill="${bt.color}" opacity="0.8"/>`;
+        }
+
+        if (isDiamond) {
+          svg += `<polygon points="${x},${y} ${x+50},${y+25} ${x},${y+50} ${x-50},${y+25}" fill="${bt.color}22" stroke="${bt.color}" stroke-width="2"/>`;
+          svg += `<text x="${x}" y="${y+30}" font-family="monospace" font-size="10" font-weight="700" fill="${bt.color}" text-anchor="middle">${bt.label}</text>`;
+        } else {
+          const rx = bt.shape === 'pill' ? 25 : 4;
+          svg += `<rect x="${x-w/2}" y="${y}" width="${w}" height="${blockH}" rx="${rx}" fill="${bt.color}22" stroke="${bt.color}" stroke-width="2"/>`;
+          svg += `<text x="${x}" y="${y+30}" font-family="monospace" font-size="11" font-weight="700" fill="${bt.color}" text-anchor="middle">${bt.label}</text>`;
+        }
+      });
+
+      svg += '</svg>';
+
+      const blob = new Blob([svg], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `flow-diagram-${Date.now()}.svg`;
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+
+    // ════════════════════════════════════════════════════════════
+    // STATS MODE
+    // ════════════════════════════════════════════════════════════
+    function renderStats() {
+      const stats = loadStats();
+      const completedCount = Object.keys(stats.completed || {}).length;
+
+      const grid = document.getElementById('stats-grid');
+      grid.innerHTML = '';
+
+      const cards = [
+        { label: 'Levels Completed', value: `${completedCount}/${LEVELS.length}`, color: 'var(--accent)' },
+        { label: 'Total Score', value: stats.totalScore || 0, color: 'var(--accent3)' },
+        { label: 'Debug Cases Solved', value: stats.debugsSolved || 0, color: '#f59e0b' },
+        { label: 'Total Attempts', value: stats.attempts || 0, color: 'var(--muted)' },
+      ];
+
+      cards.forEach(c => {
+        const div = document.createElement('div');
+        div.style.cssText = `
+          background:var(--bg3);border:1px solid var(--border);
+          border-left:3px solid ${c.color};padding:1.25rem;
+        `;
+        div.innerHTML = `
+          <div style="font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;">${c.label}</div>
+          <div style="font-family:var(--sans);font-size:1.6rem;font-weight:800;color:${c.color};">${c.value}</div>
+        `;
+        grid.appendChild(div);
+      });
+
+      const histEl = document.getElementById('stats-history');
+      histEl.innerHTML = '';
+      LEVELS.forEach((l, i) => {
+        const done = stats.completed && stats.completed[i];
+        const row = document.createElement('div');
+        row.style.cssText = `
+          display:flex;justify-content:space-between;align-items:center;
+          padding:0.5rem 0.75rem;background:var(--bg3);border:1px solid var(--border);
+          ${done ? 'border-left:3px solid var(--accent3);' : 'opacity:0.5;'}
+        `;
+        const left = document.createElement('span');
+        left.innerHTML = `${done ? '✓' : '○'} <span style="color:var(--muted);">[${l.domain}]</span> ${l.title}`;
+        const right = document.createElement('span');
+        right.style.color = 'var(--muted)';
+        right.textContent = done ? `${done.time}s · ${done.score}pts` : '—';
+        row.appendChild(left);
+        row.appendChild(right);
+        histEl.appendChild(row);
+      });
+    }
+
+    document.getElementById('stats-reset-btn').onclick = () => {
+      if (confirm('Reset all stats? This cannot be undone.')) {
+        localStorage.removeItem(STATS_KEY);
+        renderStats();
+      }
+    };
+
+    // ════════════════════════════════════════════════════════════
+    // MODE TABS
+    // ════════════════════════════════════════════════════════════
+    document.querySelectorAll('.mode-tab').forEach(tab => {
+      tab.onclick = () => {
+        document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('mode-tab-active'));
+        tab.classList.add('mode-tab-active');
+        document.querySelectorAll('.mode-panel').forEach(p => p.style.display = 'none');
+        const mode = tab.dataset.mode;
+        document.getElementById(`mode-${mode}`).style.display = 'block';
+
+        if (mode === 'debug') renderDebugMode();
+        if (mode === 'sandbox') { renderSandboxPalette(); renderSandbox(); }
+        if (mode === 'leaderboard') renderStats();
+        if (mode === 'campaign') startTimer();
+        else stopTimer();
+      };
+    });
+
+    // ════════════════════════════════════════════════════════════
+    // INIT
+    // ════════════════════════════════════════════════════════════
+    renderDomainFilter();
+    loadLevel();
+  })();
+  </script>
 
 
-<nav id="navbar" class="nav">
-  <ul class="nav-list">
-    <li>
-      <a href="#welcome-section">About</a>
-    </li>
-    <li>
-      <a href="#projects">Work</a>
-    </li>
-    <li>
-      <a href="#contact">Contact</a>
-    </li>
-  </ul>
-</nav>
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label">Contact</div>
+    <div class="contact-inner">
+      <h2 class="section-title fade-in">Let's talk</h2>
+      <p class="fade-in">
+        Looking for someone to implement automation, a ML project, or just want to chat about RPA and markets? Drop me a line.
+      </p>
+      <div class="contact-links fade-in">
+        <a href="mailto:mlaszczyk3@gmail.com" class="btn-primary">✉ Email</a>
+        <a href="https://www.linkedin.com/in/mateuszlaszczyk/" target="_blank" rel="noopener noreferrer" class="btn-secondary">LinkedIn</a>
+        <a href="https://github.com/JessePP" target="_blank" rel="noopener noreferrer" class="btn-secondary">GitHub</a>
+      </div>
+    </div>
+  </section>
 
+  <!-- FOOTER -->
+  <footer>
+    <p><span class="status-dot"></span>Available for projects</p>
+    <p>© 2026 Mateusz Łaszczyk</p>
+    <p style="font-family:var(--mono);font-size:0.7rem;color:var(--border);">v1.0.0</p>
+  </footer>
 
+  <!-- SCROLL ANIMATIONS -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        }
+      });
+    }, { threshold: 0.12 });
 
-<section id="welcome-section" class="welcome-section">
-  <h1>Hey I am Mateusz</h1>
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
 
-</section>
-
-
-<section id="projects" class="projects-section">
-  <h2 class="projects-section-header">These are some of my projects</h2>
-
-  <div class="projects-grid">
-    <a
-              href="https://github.com/JessePP/Find_keano_face"
-              target="_blank"
-              class="project project-tile"
-            >
-            Face recognition automation for specific person (trained on Keano Reaves)
-              <img
-                class="project-image"
-                src="https://fwcdn.pl/fph/25/56/792556/813592_1.2.jpg"
-                alt="project"
-              ></a>
-     <a
-            href="https://github.com/JessePP/-Face_recognition"
-            target="_blank"
-            class="project project-tile"
-          >
-          Face detection automation for images
-            <img
-              class="project-image"
-              src="https://www.thestatesman.com/wp-content/uploads/2017/08/1493458748-beauty-face-517.jpg"
-              alt="project"
-            ></a>
-    <a
-      href="https://codepen.io/JessePink/pen/wvKjzKZ"
-      target="_blank"
-      class="project project-tile"
-    >API Automation to extract & compare item prices to automate trading between servers
-
-      <img
-      class="project-image"
-       src="https://assets.codepen.io/4360654/internal/screenshots/pens/wvKjzKZ.default.png?fit=cover&amp;format=auto&amp;ha=false&amp;height=540&amp;quality=75&amp;v=2&amp;version=1592066492&amp;width=960"
-       alt="project">
-    </a>
-
-      <a
-         href="https://codepen.io/JessePink/pen/yLYYjdY"
-               target="_blank"
-      class="project project-tile"
-    > Page about Dr. Norman Borlaug
-      <img
-        class="project-image"
-        src="https://assets.codepen.io/4360654/internal/screenshots/pens/yLYYjdY.default.png?"
-        alt="project"
-      ></a>
-      </a>
-      <a
-        href="https://github.com/JessePP/error_screener"
-        target="_blank"
-        class="project project-tile"
-      > 
-      Dynamic desktop alert locator making screenshots when error occurs
-        <img
-          class="project-image"
-          src="https://freeiconshop.com/wp-content/uploads/edd/error-flat.png"
-          alt="project"
-        ></a>
-        <a
-          href="https://github.com/JessePP/Cascade"
-          target="_blank"
-          class="project project-tile"
-        >  Plasma cutter sketches maker app
-        
-          <img
-            class="project-image"
-            src="https://www.metalwallart.pl/userdata/public/gfx/70fd51dc58630a263f188cd39ad0471f.jpg"
-            alt="project"
-          ></a>
-         
-            
-
-
-</section>
-
-
-
-
-<section id="contact" class="contact-section">
-  <div class="contact-section-header">
-    <h2>Let's work together...</h2>
-    <p>How do you take your coffee?</p>
-  </div>
-  <div class="contact-links">
-
-    <a
-      id="profile-link"
-      href="https://github.com/JessePP"
-      target="_blank"
-      class="btn contact-details"
-      ><i class="fab fa-github"></i> GitHub</a
-    >
-
-    <a href="mailto:Mlaszczyk3@gmail.com" class="btn contact-details"
-      ><i class="fas fa-at"></i> Send a mail</a
-    >
-    <a href="tel:733534449" class="btn contact-details"
-      ><i class="fas fa-mobile-alt"></i> Call me</a
-    >
-    <a href="https://www.linkedin.com/in/mateuszlaszczyk/" class="btn contact-details"
-    ><i class="fas fa-Linkedin-alt"></i> Linkedin</a
-  >
-  </div>
-</section>
 </body>
-  <html>
+</html>
