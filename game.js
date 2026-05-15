@@ -5,8 +5,12 @@
 
 // Easter egg for curious recruiters
 console.log(
-  '%c👋 Wiedziałem, że sprawdzisz — tu masz mój LinkedIn: https://www.linkedin.com/in/mateuszlaszczyk/',
-  'color:#00d4ff;font-size:14px;font-weight:bold;background:#0d1117;padding:8px 12px;'
+  '%c🤖 Wiedziałem, że sprawdzisz konsolę.',
+  'color:#00d4ff;font-size:16px;font-weight:bold;background:#0d1117;padding:10px 14px;border-left:3px solid #10b981;'
+);
+console.log(
+  '%cSkoro debugujesz moje portfolio — to chyba wiesz, że warto pogadać.\n→ https://www.linkedin.com/in/mateuszlaszczyk/\n\nP.S. Próbowałeś obejść testy? Object.freeze + checksum + timing guard. Nice try.',
+  'color:#64748b;font-size:12px;background:#0d1117;padding:6px 14px;'
 );
 
 (function () {
@@ -312,6 +316,76 @@ console.log(
       hint: 'What happens to the SAP session when the bot just exits?',
       options: [1, 3, 4, 5],
       optionLabels: ['SAP_LOGIN', 'SAP_TXN', 'LOG block', 'END (no cleanup before it)'],
+    },
+    {
+      title: 'Bot sends 200 emails per invoice',
+      scenario: 'Ops receives ~4,000 notification emails overnight. The bot should send one summary email at the end, but instead fires a NOTIFY per loop iteration.',
+      flow: ['START', 'FETCH', 'LOOP', 'QUEUE_GET', 'VALIDATE', 'PROCESS', 'NOTIFY', 'QUEUE_SET', 'LOG', 'END'],
+      bugIndex: 6,
+      explanation: 'NOTIFY is inside the LOOP body — it fires on every single queue item. In a batch of 200 invoices, that\'s 200 emails. Fix: move NOTIFY after the loop ends (after QUEUE_SET, outside the loop) so it sends one summary notification.',
+      hint: 'Look at which blocks are inside the loop vs. outside.',
+      options: [2, 4, 6, 8],
+      optionLabels: ['LOOP block', 'VALIDATE block', 'NOTIFY (inside loop)', 'LOG block'],
+    },
+    {
+      title: 'Bot retries forever on business exception',
+      scenario: 'Bot is stuck retrying the same invoice for 6 hours. The invoice has an invalid vendor code — a permanent data problem, not a transient error. Yet the bot keeps retrying.',
+      flow: ['START', 'FETCH', 'LOOP', 'QUEUE_GET', 'VALIDATE', 'RETRY', 'PROCESS', 'QUEUE_SET', 'LOG', 'END'],
+      bugIndex: 5,
+      explanation: 'RETRY wraps PROCESS indiscriminately — it retries both system exceptions (network timeout, SAP crash) AND business exceptions (invalid vendor code). Business exceptions are permanent and should not be retried. Fix: add a DECISION after VALIDATE to separate business exceptions (→ set Failed, skip) from system exceptions (→ RETRY).',
+      hint: 'Should you retry when the data itself is wrong?',
+      options: [3, 4, 5, 7],
+      optionLabels: ['QUEUE_GET block', 'VALIDATE block', 'RETRY (retries everything)', 'QUEUE_SET block'],
+    },
+    {
+      title: 'Parallel branches return stale data',
+      scenario: 'Customer enrichment bot runs 3 API calls in parallel. Results merge correctly, but ~20% of records show yesterday\'s credit score instead of today\'s.',
+      flow: ['START', 'FETCH', 'PARALLEL', 'PROCESS', 'LOG', 'END'],
+      bugIndex: 3,
+      explanation: 'PROCESS merges parallel results immediately after PARALLEL, but there is no TIMEOUT guard. One branch (credit bureau) sometimes takes 15 seconds. The PARALLEL gateway returns whatever it has — including cached/stale data from the slow branch. Fix: add TIMEOUT after PARALLEL to enforce a deadline, then VALIDATE before PROCESS to check data freshness.',
+      hint: 'What happens when one parallel branch is slower than the rest?',
+      options: [1, 2, 3, 4],
+      optionLabels: ['FETCH block', 'PARALLEL block', 'PROCESS (no timeout/validate)', 'LOG block'],
+    },
+    {
+      title: 'Lock never released on error',
+      scenario: 'Monday morning: all 4 bot instances are stuck waiting. The lock was acquired Friday night but never released. One bot crashed mid-processing and the lock stayed acquired.',
+      flow: ['START', 'LOCK', 'FETCH', 'VALIDATE', 'PROCESS', 'RELEASE', 'LOG', 'END'],
+      bugIndex: 5,
+      explanation: 'RELEASE only executes in the happy path — after PROCESS succeeds. If VALIDATE or PROCESS throws an exception, the flow jumps to END without releasing the lock. All subsequent bot instances wait forever. Fix: RELEASE must be in a Finally block (or CLEANUP step) that runs regardless of success or failure. Put it before END, guaranteed to execute.',
+      hint: 'What path does the flow take when PROCESS crashes?',
+      options: [1, 3, 4, 5],
+      optionLabels: ['LOCK block', 'VALIDATE block', 'PROCESS block', 'RELEASE (only in happy path)'],
+    },
+    {
+      title: 'Queue items processed out of order',
+      scenario: 'Finance reports that month-end journals are posted in random order instead of chronological. The queue has Priority and Deadline fields, but the bot ignores them.',
+      flow: ['START', 'LOOP', 'QUEUE_GET', 'VALIDATE', 'PROCESS', 'QUEUE_SET', 'LOG', 'END'],
+      bugIndex: 0,
+      explanation: 'START goes directly into LOOP without FETCH. There\'s no initial step to configure the queue filter or sort order. The bot pulls items in default (FIFO) order from Orchestrator, ignoring Priority and Deadline. Fix: add FETCH before LOOP to query/sort queue items by priority, or configure the Orchestrator queue\'s ItemInformationFilter.',
+      hint: 'How does the bot know which item to process first?',
+      options: [0, 1, 2, 4],
+      optionLabels: ['START (no FETCH/config step)', 'LOOP block', 'QUEUE_GET block', 'PROCESS block'],
+    },
+    {
+      title: 'Bot works in Dev, fails silently in Prod',
+      scenario: 'Bot runs perfectly in development. Deployed to production — processes 0 items, no errors in log, completes "successfully" in 3 seconds. Queue has 150 pending items.',
+      flow: ['START', 'FETCH', 'LOOP', 'PROCESS', 'QUEUE_SET', 'LOG', 'END'],
+      bugIndex: 3,
+      explanation: 'PROCESS runs directly without QUEUE_GET inside the loop. In Dev, FETCH loaded test data into a local variable and the loop iterated over it. In Prod, the queue items aren\'t fetched per-iteration — LOOP has no data source. The loop executes zero times and exits cleanly. Fix: add QUEUE_GET inside the loop to pull one item per iteration from the Orchestrator queue.',
+      hint: 'The loop runs, but does it actually get any items to process?',
+      options: [1, 2, 3, 5],
+      optionLabels: ['FETCH block', 'LOOP block', 'PROCESS (no QUEUE_GET)', 'LOG block'],
+    },
+    {
+      title: 'AI agent routes everything to billing',
+      scenario: 'Support ticket triage bot deployed 2 weeks ago. 85% of tickets are routed to the billing team — including password resets, delivery tracking, and product questions. Billing team is overwhelmed.',
+      flow: ['START', 'FETCH', 'AGENT', 'PROCESS', 'NOTIFY', 'LOG', 'END'],
+      bugIndex: 2,
+      explanation: 'AI AGENT makes the routing decision, but there\'s no DECISION gateway after it to actually branch the flow based on the agent\'s classification. PROCESS always runs the same path — the default billing queue. The agent\'s output is computed but never used. Fix: add DECISION after AGENT that reads the classification and routes to different PROCESS paths (billing/technical/general).',
+      hint: 'The AI classifies correctly — but does anything act on that classification?',
+      options: [1, 2, 3, 5],
+      optionLabels: ['FETCH block', 'AI AGENT (output unused)', 'PROCESS block', 'LOG block'],
     },
   ];
 
@@ -734,41 +808,77 @@ console.log(
   }
 
   // ════════════════════════════════════════════════════════════
-  // RUN TESTS
+  // RUN TESTS — multi-layer anti-tamper
   // ════════════════════════════════════════════════════════════
-  // Anti-tamper: sealed test runner — flow is frozen copy, results validated
-  // against a checksum before display so console manipulation doesn't help
+
+  // Layer 1: test functions run on frozen snapshot
   function _runTestSecure(testFn, flowSnapshot) {
     try {
       const frozen = Object.freeze([...flowSnapshot]);
       const result = testFn(frozen);
-      // Secondary validation: re-run to confirm determinism
       const recheck = testFn(Object.freeze([...flowSnapshot]));
       return !!result && !!recheck;
     } catch { return false; }
   }
 
+  // Layer 2: XOR checksum detects result array tampering
   function _computeChecksum(results) {
-    // Simple XOR fingerprint — makes it obvious if results array is tampered
     return results.reduce((acc, v, i) => acc ^ ((v ? 1 : 0) << (i % 30)), 0xDEAD);
+  }
+
+  // Layer 3: timing validation — can't pass instantly
+  const _levelLoadTimestamps = {};
+
+  // Layer 4: flow signature — hash of actual flow content
+  function _flowSignature(flowArr) {
+    return flowArr.reduce((h, k, i) => h + k.charCodeAt(0) * (i + 1) * 31, 0);
+  }
+
+  // Layer 5: detect if test functions were overwritten
+  const _originalTestCounts = {};
+  function _captureTestSignatures() {
+    LEVELS.forEach((lvl, i) => {
+      _originalTestCounts[i] = lvl.tests.length;
+    });
   }
 
   function runTests() {
     if (flow.length === 0) {
-      el('flow-result').innerHTML = '<span style="color:#f43f5e;">Add some blocks first.</span>';
+      el('flow-result').textContent = 'Add some blocks first.';
       return;
     }
 
+    const lvlIdx = filteredLevels[currentLevelIdx];
     const lvl = currentLevel();
-    const flowSnapshot = Object.freeze([...flow]);
-    const results = lvl.tests.map(t => _runTestSecure(t.fn, flowSnapshot));
-    const checksum = _computeChecksum(results);
-    // Verify checksum matches re-computation — catches runtime tampering
-    const recheck  = lvl.tests.map(t => _runTestSecure(t.fn, flowSnapshot));
-    if (_computeChecksum(recheck) !== checksum) {
-      el('flow-result').innerHTML = '<span style="color:#f43f5e;">⚠ Integrity check failed.</span>';
+
+    // Anti-tamper: verify test array hasn't been shortened/replaced
+    if (lvl.tests.length !== _originalTestCounts[lvlIdx]) {
+      el('flow-result').textContent = '⚠ Test integrity violation detected.';
       return;
     }
+
+    // Anti-tamper: must have spent at least 2s on this level
+    const elapsed = Date.now() - (_levelLoadTimestamps[lvlIdx] || 0);
+    if (elapsed < 2000) {
+      el('flow-result').textContent = '⚠ Too fast — are you a bot debugging a bot?';
+      return;
+    }
+
+    const flowSnapshot = Object.freeze([...flow]);
+    const flowSig = _flowSignature(flow);
+
+    const results = lvl.tests.map(t => _runTestSecure(t.fn, flowSnapshot));
+    const checksum = _computeChecksum(results);
+
+    // Double-check: re-run everything from scratch
+    const recheck  = lvl.tests.map(t => _runTestSecure(t.fn, flowSnapshot));
+    const recheckSig = _flowSignature(flow); // verify flow wasn't mutated during test
+
+    if (_computeChecksum(recheck) !== checksum || recheckSig !== flowSig) {
+      el('flow-result').textContent = '⚠ Integrity check failed.';
+      return;
+    }
+
     renderTests(results);
 
     const passed = results.filter(Boolean).length;
@@ -776,23 +886,21 @@ console.log(
 
     setTimeout(() => {
       if (passed === total) {
-        const elapsed  = stopTimer();
-        const timeBonus = Math.max(0, 300 - elapsed);
-        const earned   = (filteredLevels[currentLevelIdx] + 1) * 100 + timeBonus;
+        const secs    = stopTimer();
+        const timeBonus = Math.max(0, 300 - secs);
+        const earned   = (lvlIdx + 1) * 100 + timeBonus;
         totalScore    += earned;
 
         el('fg-score').textContent = totalScore;
 
         const stats = loadStats();
-        stats.completed[filteredLevels[currentLevelIdx]] = { time: elapsed, score: earned, ts: Date.now() };
+        stats.completed[lvlIdx] = { time: secs, score: earned, ts: Date.now() };
         stats.totalScore  = (stats.totalScore  || 0) + earned;
         stats.attempts    = (stats.attempts    || 0) + 1;
         saveStats(stats);
 
-        el('flow-result').innerHTML =
-          `<span style="color:var(--accent3);">✓ ALL TESTS PASSED · ⏱ ${elapsed}s · +${earned}pts</span>`;
+        el('flow-result').textContent = `✓ ALL TESTS PASSED · ⏱ ${secs}s · +${earned}pts`;
 
-        // Auto-advance after 2s
         if (currentLevelIdx < filteredLevels.length - 1) {
           setTimeout(() => {
             currentLevelIdx++;
@@ -801,13 +909,11 @@ console.log(
           }, 2000);
         } else {
           setTimeout(() => {
-            el('flow-result').innerHTML =
-              `<span style="color:var(--accent);">🏆 Domain complete! Total: ${totalScore}pts</span>`;
+            el('flow-result').textContent = `🏆 Domain complete! Total: ${totalScore}pts`;
           }, 500);
         }
       } else {
-        el('flow-result').innerHTML =
-          `<span style="color:#f59e0b;">${passed}/${total} tests passed — fix your flow</span>`;
+        el('flow-result').textContent = `${passed}/${total} tests passed — fix your flow`;
       }
     }, 200);
   }
@@ -817,6 +923,10 @@ console.log(
   // ════════════════════════════════════════════════════════════
   function loadLevel() {
     const lvl = currentLevel();
+    const lvlIdx = filteredLevels[currentLevelIdx];
+
+    // Anti-tamper: record when this level was loaded
+    _levelLoadTimestamps[lvlIdx] = Date.now();
 
     // Level counter — shows position within FILTERED set
     el('fg-level').textContent = `${currentLevelIdx + 1}/${filteredLevels.length}`;
@@ -929,136 +1039,139 @@ console.log(
     const wrap = el('debug-puzzle-area');
     wrap.innerHTML = '';
 
-    let nextUnsolved = -1;
+    // Find first unsolved puzzle
+    let currentPuzzleIdx = -1;
+    for (let i = 0; i < DEBUG_PUZZLES.length; i++) {
+      if (!debugSolvedSet.has(i)) { currentPuzzleIdx = i; break; }
+    }
 
-    DEBUG_PUZZLES.forEach((puzzle, pIdx) => {
-      const isSolved = debugSolvedSet.has(pIdx);
+    // All solved
+    if (currentPuzzleIdx === -1) {
+      const done = document.createElement('div');
+      done.className = 'debug-complete';
+      done.innerHTML = `
+        <div class="debug-complete-icon">🏆</div>
+        <div class="debug-complete-title">All ${DEBUG_PUZZLES.length} debug cases solved!</div>
+        <div class="debug-complete-score">+${DEBUG_PUZZLES.length * 200}pts earned</div>
+        <div class="debug-complete-sub">${debugSolvedSet.size}/${DEBUG_PUZZLES.length} production bugs identified correctly</div>
+      `;
+      wrap.appendChild(done);
+      return;
+    }
 
-      // Only show the first unsolved, hide the rest (solved ones visible)
-      if (!isSolved && nextUnsolved === -1) nextUnsolved = pIdx;
-      if (!isSolved && pIdx !== nextUnsolved) return; // skip future unsolved
+    // Progress bar
+    const progress = document.createElement('div');
+    progress.className = 'debug-progress';
+    progress.innerHTML = `<span>Case ${currentPuzzleIdx + 1} of ${DEBUG_PUZZLES.length}</span><span>${debugSolvedSet.size} solved</span>`;
+    wrap.appendChild(progress);
 
-      const card = document.createElement('div');
-      card.className = 'debug-card' + (isSolved ? ' solved' : '');
-      card.id = `debug-card-${pIdx}`;
+    // Show current puzzle only
+    const puzzle = DEBUG_PUZZLES[currentPuzzleIdx];
+    const pIdx = currentPuzzleIdx;
 
-      // Header
-      const num = document.createElement('div');
-      num.className = 'debug-num';
-      num.textContent = `// CASE #${pIdx + 1} of ${DEBUG_PUZZLES.length}`;
+    const card = document.createElement('div');
+    card.className = 'debug-card';
 
-      const title = document.createElement('h3');
-      title.className = 'debug-title';
-      title.textContent = puzzle.title;
+    // Title + scenario
+    const title = document.createElement('h3');
+    title.className = 'debug-title';
+    title.textContent = puzzle.title;
 
-      const scenario = document.createElement('p');
-      scenario.className = 'debug-scenario';
-      scenario.textContent = puzzle.scenario;
+    const scenario = document.createElement('p');
+    scenario.className = 'debug-scenario';
+    scenario.textContent = puzzle.scenario;
 
-      card.append(num, title, scenario);
+    card.append(title, scenario);
 
-      // Flow visualisation
-      const flowWrap = document.createElement('div');
-      flowWrap.style.cssText = 'background:var(--bg);border:1px solid var(--border);padding:1.25rem;display:flex;flex-direction:column;align-items:center;';
-      const flowNodes = document.createElement('div');
-      flowNodes.className = 'flow-nodes';
-      flowWrap.appendChild(flowNodes);
-      card.appendChild(flowWrap);
+    // Flow visualisation
+    const flowWrap = document.createElement('div');
+    flowWrap.className = 'debug-flow-wrap';
+    const flowNodes = document.createElement('div');
+    flowNodes.className = 'flow-nodes';
+    flowWrap.appendChild(flowNodes);
+    card.appendChild(flowWrap);
 
-      // Render flow — highlight error if solved
-      renderNodes(flowNodes, puzzle.flow, () => {}, {
-        errorIdx: isSolved ? puzzle.bugIndex : -1,
-        readOnly: true,
+    renderNodes(flowNodes, puzzle.flow, () => {}, { readOnly: true });
+
+    // Hint
+    const hint = document.createElement('div');
+    hint.className = 'debug-hint';
+    hint.textContent = `💡 ${puzzle.hint}`;
+    card.appendChild(hint);
+
+    // Question
+    const q = document.createElement('div');
+    q.className = 'debug-question';
+    q.textContent = '?> Which block is the bug?';
+    card.appendChild(q);
+
+    // Options
+    const optsWrap = document.createElement('div');
+    optsWrap.className = 'debug-options';
+
+    puzzle.options.forEach((blockIdx, optIdx) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'debug-opt-btn';
+      btn.textContent = `→ ${puzzle.optionLabels[optIdx]}`;
+
+      btn.addEventListener('click', () => {
+        const correct = blockIdx === puzzle.bugIndex;
+
+        if (correct) {
+          // Disable all buttons
+          optsWrap.querySelectorAll('.debug-opt-btn').forEach(b => {
+            b.disabled = true;
+            b.classList.add('disabled');
+          });
+          btn.className = 'debug-opt-btn correct';
+
+          // Highlight error in flow
+          renderNodes(flowNodes, puzzle.flow, () => {}, { errorIdx: puzzle.bugIndex, readOnly: true });
+
+          // Show detailed explanation
+          const expl = document.createElement('div');
+          expl.className = 'debug-explanation';
+          expl.innerHTML = [
+            `<div class="debug-expl-header">✓ Correct — ${puzzle.optionLabels[optIdx]}</div>`,
+            `<div class="debug-expl-body">${puzzle.explanation}</div>`,
+            `<div class="debug-expl-tip">💬 In production, this bug would cause: <em>${puzzle.title.toLowerCase()}</em>. `,
+            `The fix is to add the missing step before the flow reaches this point.</div>`,
+          ].join('');
+          card.appendChild(expl);
+
+          // "Next →" button
+          const nextBtn = document.createElement('button');
+          nextBtn.type = 'button';
+          nextBtn.className = 'btn-run debug-next-btn';
+          nextBtn.textContent = pIdx < DEBUG_PUZZLES.length - 1 ? 'Next case →' : 'See results →';
+          nextBtn.addEventListener('click', () => renderDebugMode());
+          card.appendChild(nextBtn);
+
+          // Mark solved + save
+          debugSolvedSet.add(pIdx);
+          const stats = loadStats();
+          stats.debugsSolved = (stats.debugsSolved || 0) + 1;
+          stats.totalScore   = (stats.totalScore   || 0) + 200;
+          saveStats(stats);
+
+        } else {
+          btn.className = 'debug-opt-btn wrong';
+          btn.disabled = true;
+          btn.textContent = `✗ ${puzzle.optionLabels[optIdx]} — not the root cause`;
+          setTimeout(() => {
+            btn.className = 'debug-opt-btn';
+            btn.disabled = false;
+            btn.textContent = `→ ${puzzle.optionLabels[optIdx]}`;
+          }, 2200);
+        }
       });
 
-      if (isSolved) {
-        // Show explanation
-        const expl = document.createElement('div');
-        expl.className = 'debug-explanation';
-        expl.innerHTML = `<strong style="color:var(--accent3);">✓ SOLVED — </strong>${puzzle.explanation}`;
-        card.appendChild(expl);
-        wrap.appendChild(card);
-        return;
-      }
-
-      // Question
-      const q = document.createElement('div');
-      q.className = 'debug-question';
-      q.textContent = '?> Which block is the bug?';
-
-      const hint = document.createElement('div');
-      hint.style.cssText = 'font-family:var(--mono);font-size:0.7rem;color:var(--muted);margin-top:0.25rem;';
-      hint.textContent = `Hint: ${puzzle.hint}`;
-
-      card.append(q, hint);
-
-      // Options
-      const optsWrap = document.createElement('div');
-      optsWrap.className = 'debug-options';
-
-      puzzle.options.forEach((blockIdx, optIdx) => {
-        const btn = document.createElement('button');
-        btn.className = 'debug-opt-btn';
-        btn.textContent = `→ ${puzzle.optionLabels[optIdx]}`;
-
-        btn.addEventListener('click', () => {
-          const correct = blockIdx === puzzle.bugIndex;
-
-          if (correct) {
-            btn.className = 'debug-opt-btn correct';
-            btn.disabled = true;
-
-            // Disable all other opts
-            optsWrap.querySelectorAll('.debug-opt-btn').forEach(b => b.disabled = true);
-
-            // Re-render flow with highlighted error
-            renderNodes(flowNodes, puzzle.flow, () => {}, { errorIdx: puzzle.bugIndex, readOnly: true });
-
-            // Show explanation
-            const expl = document.createElement('div');
-            expl.className = 'debug-explanation';
-            expl.innerHTML = `<strong style="color:var(--accent3);">✓ CORRECT — </strong>${puzzle.explanation}`;
-            card.appendChild(expl);
-
-            // Mark solved
-            debugSolvedSet.add(pIdx);
-            card.classList.add('solved');
-
-            // Update stats
-            const stats = loadStats();
-            stats.debugsSolved = (stats.debugsSolved || 0) + 1;
-            stats.totalScore   = (stats.totalScore   || 0) + 200;
-            saveStats(stats);
-
-            // After 2s, show next unsolved puzzle
-            setTimeout(() => renderDebugMode(), 1800);
-
-          } else {
-            btn.className = 'debug-opt-btn wrong';
-            btn.disabled = true;
-            btn.textContent = `✗ ${puzzle.optionLabels[optIdx]} — not the bug`;
-            setTimeout(() => {
-              btn.className = 'debug-opt-btn';
-              btn.disabled = false;
-              btn.textContent = `→ ${puzzle.optionLabels[optIdx]}`;
-            }, 2000);
-          }
-        });
-
-        optsWrap.appendChild(btn);
-      });
-
-      card.appendChild(optsWrap);
-      wrap.appendChild(card);
+      optsWrap.appendChild(btn);
     });
 
-    // If all solved
-    if (debugSolvedSet.size === DEBUG_PUZZLES.length) {
-      const done = document.createElement('div');
-      done.style.cssText = 'font-family:var(--mono);font-size:1rem;color:var(--accent3);font-weight:700;padding:2rem 0;text-align:center;';
-      done.textContent = '🏆 All debug cases solved! +' + (DEBUG_PUZZLES.length * 200) + 'pts';
-      wrap.appendChild(done);
-    }
+    card.appendChild(optsWrap);
+    wrap.appendChild(card);
   }
 
   // ════════════════════════════════════════════════════════════
@@ -1314,6 +1427,7 @@ console.log(
   // INIT
   // ════════════════════════════════════════════════════════════
   function init() {
+    _captureTestSignatures(); // anti-tamper: snapshot test counts before anything runs
     initModeTabs();
     initEvents();
     renderDomainFilter();

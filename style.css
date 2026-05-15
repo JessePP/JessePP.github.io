@@ -100,7 +100,7 @@ nav {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 8rem 4rem 4rem;
+  padding: 8rem 4rem 6rem;
   position: relative;
   overflow: hidden;
 }
@@ -202,17 +202,19 @@ h1.hero-title span {
 
 .hero-scroll {
   position: absolute;
-  bottom: 3rem; left: 4rem;
+  bottom: 2rem; left: 4rem;
   z-index: 2;
   font-family: var(--mono);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 600;
-  color: var(--muted);
+  color: var(--border);
   letter-spacing: 0.15em;
   text-transform: uppercase;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .hero-scroll::after {
@@ -1013,6 +1015,95 @@ a.project-link::after { content: '→'; }
   font-weight: 400;
   line-height: var(--lh-body);
   color: var(--text);
+}
+
+.debug-expl-header {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent3);
+  margin-bottom: 0.5rem;
+}
+
+.debug-expl-body {
+  margin-bottom: 0.75rem;
+}
+
+.debug-expl-tip {
+  font-size: 0.8rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  padding-top: 0.6rem;
+  margin-top: 0.25rem;
+}
+
+.debug-expl-tip em { color: var(--text); }
+
+.debug-flow-wrap {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.debug-hint {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  padding: 0.5rem 0;
+}
+
+.debug-progress {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.debug-next-btn {
+  margin-top: 1rem;
+}
+
+.debug-complete {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.debug-complete-icon { font-size: 3rem; margin-bottom: 1rem; }
+
+.debug-complete-title {
+  font-family: var(--mono);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--accent3);
+  margin-bottom: 0.5rem;
+}
+
+.debug-complete-score {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--accent);
+  margin-bottom: 0.25rem;
+}
+
+.debug-complete-sub {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.debug-opt-btn.disabled {
+  opacity: 0.4;
+  cursor: default;
 }
 
 /* Sandbox mode */
