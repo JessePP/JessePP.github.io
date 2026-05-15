@@ -677,30 +677,35 @@ console.log(
       row.dataset.idx = i;
 
       if (results === null) {
-        // Default state: hidden
-        row.classList.add('hidden');
-        row.classList.add('pending');
+        // Before run: completely hidden
+        row.classList.add('hidden', 'pending');
         row.innerHTML = `<span>○</span><span>${t.label}</span>`;
+      } else if (results[i]) {
+        // Passed: hidden unless [T] toggle is on
+        row.classList.add(testsVisible ? 'pass' : 'hidden');
+        row.innerHTML = `<span>✓</span><span>${t.label}</span>`;
       } else {
-        const passed = results[i];
-        if (passed) {
-          // Passed tests always hidden after run unless toggle is on
-          row.classList.add(testsVisible ? 'pass' : 'hidden');
-          row.innerHTML = `<span>✓</span><span>${t.label}</span>`;
-        } else {
-          // Failed tests always shown in red
-          row.classList.add('fail');
-          row.innerHTML = `<span>✗</span><span>${t.label}</span>`;
-        }
+        // Failed: ALWAYS visible in red
+        row.classList.add('fail');
+        row.innerHTML = `<span>✗</span><span>${t.label}</span>`;
       }
 
       panel.appendChild(row);
     });
+
+    // Update header to show count
+    const failCount = results ? results.filter(r => !r).length : 0;
+    const headerLabel = el('tests-header-label');
+    if (headerLabel) {
+      headerLabel.textContent = results
+        ? (failCount > 0 ? `// Tests — ${failCount} failing` : '// Tests — all passed')
+        : '// Tests';
+    }
   }
 
   function updateTestsToggle() {
     const toggle = el('tests-toggle-btn');
-    if (toggle) toggle.textContent = testsVisible ? '[T] Hide Tests' : '[T] Show Tests';
+    if (toggle) toggle.textContent = testsVisible ? '[T] Hide passed' : '[T] Show all';
   }
 
   // ════════════════════════════════════════════════════════════
@@ -822,12 +827,10 @@ console.log(
 
     // Framework recommendation
     const fw  = el('framework-rec');
-    const fww = el('framework-rec-wrapper');
     if (lvl.framework) {
-      fw.textContent    = lvl.framework;
-      fww.style.display = 'block';
+      fw.textContent = lvl.framework;
     } else {
-      fww.style.display = 'none';
+      fw.textContent = '—';
     }
 
     // Task
@@ -1199,24 +1202,33 @@ console.log(
   }
 
   // ════════════════════════════════════════════════════════════
-  // MODE TABS
+  // MODE TABS — fixed timer leak + a11y
   // ════════════════════════════════════════════════════════════
   function initModeTabs() {
     qsa('.mode-tab').forEach(tab => {
       tab.addEventListener('click', () => {
-        qsa('.mode-tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        qsa('.mode-panel').forEach(p => p.style.display = 'none');
+        // Stop timer on ANY tab switch
+        stopTimer();
 
+        // Update active state + aria
+        qsa('.mode-tab').forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+
+        // Show/hide panels via .hidden class (no inline style)
+        qsa('.mode-panel').forEach(p => p.classList.add('hidden'));
         const mode = tab.dataset.mode;
         const panel = el(`mode-${mode}`);
-        if (panel) panel.style.display = 'block';
+        if (panel) panel.classList.remove('hidden');
 
+        // Mode-specific init
         if (mode === 'debug')       renderDebugMode();
         if (mode === 'sandbox')     { renderSandboxPalette(); renderSandbox(); }
         if (mode === 'leaderboard') renderStats();
         if (mode === 'campaign')    startTimer();
-        else stopTimer();
       });
     });
   }
@@ -1229,32 +1241,38 @@ console.log(
     const runBtn = el('run-btn');
     if (runBtn) runBtn.addEventListener('click', runTests);
 
-    // Reset
+    // Reset — also restarts timer and picker
     const resetBtn = el('reset-btn');
     if (resetBtn) resetBtn.addEventListener('click', () => {
       flow = [];
       el('flow-result').textContent = '';
       testsVisible = false;
+      renderLevelPicker();
       renderPalette();
       renderFlow();
       renderTests(null);
       updateTestsToggle();
+      startTimer(); // restart timer on reset
     });
 
-    // Tests toggle (T button)
+    // Tests toggle (T button) — only toggles passed tests visibility
     const testsToggle = el('tests-toggle-btn');
     if (testsToggle) {
       testsToggle.addEventListener('click', () => {
         testsVisible = !testsVisible;
         updateTestsToggle();
-        // Re-render tests in current state
-        const rows = qsa('.test-row');
-        rows.forEach(row => {
-          if (row.classList.contains('fail')) return; // always show fails
+        qsa('.test-row').forEach(row => {
+          // Failed tests always visible, never toggled
+          if (row.classList.contains('fail')) return;
+          // Pending tests (before run) stay hidden always
+          if (row.classList.contains('pending')) return;
+          // Passed tests: show/hide based on toggle
           if (testsVisible) {
             row.classList.remove('hidden');
+            row.classList.add('pass');
           } else {
-            if (!row.classList.contains('fail')) row.classList.add('hidden');
+            row.classList.add('hidden');
+            row.classList.remove('pass');
           }
         });
       });

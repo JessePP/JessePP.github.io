@@ -15,8 +15,9 @@
 </head>
 <body>
 
-  <nav>
-    <div class="nav-logo">Mlaszczyk Dev</div>
+  <!-- NAV -->
+  <nav role="navigation" aria-label="Main navigation">
+    <div class="nav-logo" aria-label="Home">Mlaszczyk Dev</div>
     <ul class="nav-links">
       <li><a href="#skills">Skills</a></li>
       <li><a href="#projects">Projects</a></li>
@@ -27,10 +28,11 @@
     </ul>
   </nav>
 
+  <!-- HERO -->
   <section id="hero">
-    <div class="hero-grid-bg"></div>
-    <div class="hero-glow"></div>
-    <div class="hero-glow2"></div>
+    <div class="hero-grid-bg" aria-hidden="true"></div>
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-glow2" aria-hidden="true"></div>
     <div class="hero-eyebrow">RPA Engineer &amp; AI Automation · 3+ years production</div>
     <h1 class="hero-title">Automate.<br><span>Integrate.</span><br>Ship.</h1>
     <p class="hero-sub">UiPath Certified · Power Platform Certified · Azure AI.<br>Building production-grade automation for enterprise environments.</p>
@@ -38,75 +40,65 @@
       <a href="#projects" class="btn-primary">See projects</a>
       <a href="#contact" class="btn-secondary">Get in touch</a>
     </div>
-    <div class="hero-scroll">Scroll</div>
+    <div class="hero-scroll" aria-hidden="true">Scroll</div>
   </section>
 
+  <!-- SKILLS -->
   <section id="skills">
     <div class="section-label">Competencies</div>
     <h2 class="section-title">What I do</h2>
     <div class="skills-grid">
 
       <div class="skill-card fade-in">
-        <div class="skill-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="8" width="24" height="16" rx="3" stroke="#00d4ff" stroke-width="2"/><path d="M10 14l3 3-3 3M16 20h6" stroke="#00d4ff" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div class="skill-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="4" y="8" width="24" height="16" rx="3" stroke="#00d4ff" stroke-width="2"/><path d="M10 14l3 3-3 3M16 20h6" stroke="#00d4ff" stroke-width="2" stroke-linecap="round"/></svg></div>
         <h3>Robotic Process Automation</h3>
         <p>3+ years building production bots in enterprise environments. Dispatcher–Performer patterns, queue management, exception handling. Certified RPA Associate.</p>
-        <div class="skill-tags">
-          <span class="tag">UiPath Studio</span><span class="tag">Orchestrator</span><span class="tag">REFramework</span><span class="tag">SAP GUI</span><span class="tag">Git</span>
-        </div>
+        <div class="skill-tags"><span class="tag">UiPath Studio</span><span class="tag">Orchestrator</span><span class="tag">REFramework</span><span class="tag">SAP GUI</span><span class="tag">Git</span></div>
       </div>
 
       <div class="skill-card fade-in">
-        <div class="skill-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 16h4l3-8 4 16 3-8h6" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="skill-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 16h4l3-8 4 16 3-8h6" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <h3>Power Platform &amp; Microsoft Automation</h3>
         <p>Power Automate Desktop flows, connectors, cloud flows. Microsoft Certified: Power Platform Fundamentals. Low-code automations alongside traditional RPA.</p>
-        <div class="skill-tags">
-          <span class="tag purple">Power Automate</span><span class="tag purple">Power Automate Desktop</span><span class="tag purple">Power Platform</span><span class="tag purple">Dataverse</span>
-        </div>
+        <div class="skill-tags"><span class="tag purple">Power Automate</span><span class="tag purple">Power Automate Desktop</span><span class="tag purple">Power Platform</span><span class="tag purple">Dataverse</span></div>
       </div>
 
       <div class="skill-card fade-in">
-        <div class="skill-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="10" stroke="#a78bfa" stroke-width="2"/><path d="M12 13c0-2 8-2 8 0s-4 4-4 4" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="21" r="1" fill="#a78bfa"/></svg></div>
+        <div class="skill-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="16" cy="16" r="10" stroke="#a78bfa" stroke-width="2"/><path d="M12 13c0-2 8-2 8 0s-4 4-4 4" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="21" r="1" fill="#a78bfa"/></svg></div>
         <h3>AI &amp; Machine Learning</h3>
         <p>Azure AI Studio, Microsoft Agent Framework. Building ML-augmented automations and intelligent process automation beyond rule-based bots.</p>
-        <div class="skill-tags">
-          <span class="tag purple">Python</span><span class="tag purple">Azure AI Studio</span><span class="tag purple">Microsoft Agent Framework</span><span class="tag purple">scikit-learn</span>
-        </div>
+        <div class="skill-tags"><span class="tag purple">Python</span><span class="tag purple">Azure AI Studio</span><span class="tag purple">Microsoft Agent Framework</span><span class="tag purple">scikit-learn</span></div>
       </div>
 
       <div class="skill-card fade-in">
-        <div class="skill-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="6" width="24" height="20" rx="2" stroke="#10b981" stroke-width="2"/><path d="M4 12h24" stroke="#10b981" stroke-width="2"/><path d="M10 18h4M10 22h8" stroke="#10b981" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div class="skill-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="4" y="6" width="24" height="20" rx="2" stroke="#10b981" stroke-width="2"/><path d="M4 12h24" stroke="#10b981" stroke-width="2"/><path d="M10 18h4M10 22h8" stroke="#10b981" stroke-width="2" stroke-linecap="round"/></svg></div>
         <h3>SAP &amp; Enterprise Systems</h3>
         <p>Automating financial and accounting processes in SAP ERP. FI module, invoice processing, MM transactions, GUI scripting across multiple clients.</p>
-        <div class="skill-tags">
-          <span class="tag green">SAP ERP</span><span class="tag green">FI Module</span><span class="tag green">Invoice Processing</span><span class="tag green">SAP GUI Scripting</span>
-        </div>
+        <div class="skill-tags"><span class="tag green">SAP ERP</span><span class="tag green">FI Module</span><span class="tag green">Invoice Processing</span><span class="tag green">SAP GUI Scripting</span></div>
       </div>
 
       <div class="skill-card fade-in">
-        <div class="skill-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="24" height="24" rx="2" stroke="#00d4ff" stroke-width="2"/><path d="M8 22l5-8 4 5 3-4 4 7" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="skill-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="4" y="4" width="24" height="24" rx="2" stroke="#00d4ff" stroke-width="2"/><path d="M8 22l5-8 4 5 3-4 4 7" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <h3>Data &amp; Analytics</h3>
         <p>SQL, Python data analysis, process log mining. Identifying automation candidates and building scoring models for process prioritisation.</p>
-        <div class="skill-tags">
-          <span class="tag">SQL</span><span class="tag purple">Python</span><span class="tag purple">Jupyter</span><span class="tag">Excel / VBA</span>
-        </div>
+        <div class="skill-tags"><span class="tag">SQL</span><span class="tag purple">Python</span><span class="tag purple">Jupyter</span><span class="tag">Excel / VBA</span></div>
       </div>
 
       <div class="skill-card fade-in">
-        <div class="skill-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 10l-4 6 4 6M22 10l4 6-4 6" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 8l-4 16" stroke="#10b981" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div class="skill-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 10l-4 6 4 6M22 10l4 6-4 6" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 8l-4 16" stroke="#10b981" stroke-width="2" stroke-linecap="round"/></svg></div>
         <h3>Web &amp; Dev Fundamentals</h3>
         <p>HTML, CSS, JavaScript for automation tooling, dashboards and interfaces. Agile delivery in Scrum teams across enterprise environments.</p>
-        <div class="skill-tags">
-          <span class="tag green">HTML</span><span class="tag green">CSS</span><span class="tag green">JavaScript</span><span class="tag">Git</span><span class="tag">Scrum</span>
-        </div>
+        <div class="skill-tags"><span class="tag green">HTML</span><span class="tag green">CSS</span><span class="tag green">JavaScript</span><span class="tag">Git</span><span class="tag">Scrum</span></div>
       </div>
 
     </div>
   </section>
 
+  <!-- PROJECTS -->
   <section id="projects">
     <div class="section-label">Portfolio</div>
     <h2 class="section-title">Selected projects</h2>
-    <p style="font-family:var(--mono);font-size:0.82rem;color:var(--muted);margin-top:-2.5rem;margin-bottom:3rem;max-width:60ch;line-height:1.8;">Production work is covered by NDA. Projects below represent real patterns and architectures from deployed systems.</p>
+    <p class="projects-subtitle">Production work is covered by NDA. Projects below represent real patterns and architectures from deployed systems.</p>
     <div class="projects-grid">
 
       <div class="project-card fade-in">
@@ -122,7 +114,7 @@
         <h3>Financial Document Processing — SAP Automation</h3>
         <p>Production bot automating high-volume invoice processing in SAP FI. Document validation, posting, exception routing across multiple entity types in a large-scale enterprise environment.</p>
         <div class="project-tech"><span class="tag">UiPath</span><span class="tag">SAP FI</span><span class="tag">REFramework</span><span class="tag green">Production</span></div>
-        <span class="project-link" style="cursor:default;opacity:0.55;color:var(--muted);">NDA — case study in progress</span>
+        <span class="project-link project-link--disabled">NDA — case study in progress</span>
       </div>
 
       <div class="project-card fade-in">
@@ -130,13 +122,13 @@
         <h3>Power Automate — Concurrency Lock Pattern</h3>
         <p>Solution preventing race conditions when multiple parent flows trigger a shared child flow simultaneously. Dataverse flag table with atomic read/write logic — no Orchestrator dependency.</p>
         <div class="project-tech"><span class="tag purple">Power Automate</span><span class="tag purple">Dataverse</span><span class="tag purple">Power Platform</span></div>
-        <span class="project-link" style="cursor:default;opacity:0.55;color:var(--muted);">Case study coming soon</span>
+        <span class="project-link project-link--disabled">Case study coming soon</span>
       </div>
 
       <div class="project-card fade-in">
         <div class="project-number">// 04</div>
         <h3>RPA Flow Designer — Interactive Portfolio Game</h3>
-        <p>Browser-based logic game. Twelve real-world RPA scenarios — sequence blocks to satisfy tests. Three modes: campaign, debug broken bots, sandbox with SVG export.</p>
+        <p>Browser-based logic game. Twelve real-world RPA scenarios — sequence blocks to satisfy tests. Four modes: campaign, debug broken bots, sandbox with SVG export, stats.</p>
         <div class="project-tech"><span class="tag green">JavaScript</span><span class="tag green">HTML / CSS</span><span class="tag">RPA Design</span></div>
         <a href="#flowgame" class="project-link">Try it below</a>
       </div>
@@ -144,6 +136,7 @@
     </div>
   </section>
 
+  <!-- ABOUT -->
   <section id="about">
     <div class="section-label">Who I am</div>
     <h2 class="section-title">About</h2>
@@ -153,17 +146,14 @@
         <p>Certified <strong>UiPath RPA Associate</strong> and <strong>Microsoft Power Platform Fundamentals</strong>. Currently deepening expertise in AI-augmented automation — Azure AI Studio, Microsoft Agent Framework, moving beyond purely rule-based bots.</p>
         <p>I care about code quality, maintainability, and automation that keeps running six months after deployment. REFramework, proper exception handling, zero hard-coded values — not optional.</p>
       </div>
-      <div class="terminal fade-in">
-        <div class="terminal-bar">
-          <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
-          <span class="terminal-title">profile.json — bash</span>
-        </div>
+      <div class="terminal fade-in" role="img" aria-label="Profile data displayed as terminal output">
+        <div class="terminal-bar"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div><span class="terminal-title">profile.json — bash</span></div>
         <div class="terminal-body">
           <div><span class="t-prompt">~$</span> <span class="t-cmd">cat profile.json</span></div>
           <div class="t-out">{</div>
           <div class="t-out">&nbsp;&nbsp;<span class="t-val">"name"</span>: <span class="t-str">"Mateusz Laszczyk"</span>,</div>
           <div class="t-out">&nbsp;&nbsp;<span class="t-val">"role"</span>: <span class="t-str">"RPA Engineer"</span>,</div>
-          <div class="t-out">&nbsp;&nbsp;<span class="t-val">"location"</span>: <span class="t-str">"Poland 🇵🇱"</span>,</div>
+          <div class="t-out">&nbsp;&nbsp;<span class="t-val">"location"</span>: <span class="t-str">"Poland"</span>,</div>
           <div class="t-out">&nbsp;&nbsp;<span class="t-val">"certs"</span>: [<span class="t-str">"UiPath RPA Associate"</span>, <span class="t-str">"MS Power Platform"</span>],</div>
           <div class="t-out">&nbsp;&nbsp;<span class="t-val">"stack"</span>: [<span class="t-str">"UiPath"</span>, <span class="t-str">"Power Platform"</span>, <span class="t-str">"SAP"</span>, <span class="t-str">"Azure AI"</span>],</div>
           <div class="t-out">&nbsp;&nbsp;<span class="t-val">"learning"</span>: <span class="t-str">"Agent Framework + AI-900"</span>,</div>
@@ -175,118 +165,123 @@
     </div>
   </section>
 
+  <!-- WHY GAME -->
   <section id="why-game">
     <div class="section-label">Why this game exists</div>
-    <h2 class="section-title" style="margin-bottom:1.5rem;">Portfolio without the NDA</h2>
-    <div style="max-width:780px;display:flex;flex-direction:column;gap:1.25rem;">
-      <p>Most RPA work runs in production under strict NDAs. Screenshots, code samples, even architectural diagrams of real bots — usually off-limits. The standard "show your GitHub repos" advice doesn't translate to enterprise automation engineers.</p>
-      <p>So instead of a portfolio of <em>things I built that I can't show you</em> — here's something better. An interactive game built from the same domain knowledge I use at work. Watch me think about RPA design: which patterns to apply, what order, what can fail, what the production-grade version looks like.</p>
+    <h2 class="section-title section-title--tight">Portfolio without the NDA</h2>
+    <div class="why-game-body">
+      <p>Most RPA work runs in production under strict NDAs. Screenshots, code samples, even architectural diagrams of real bots — usually off-limits.</p>
+      <p>So instead of a portfolio of <em>things I built that I can't show you</em> — here's something better. An interactive game built from the same domain knowledge I use at work.</p>
       <p class="accent">▸ Play it. Four modes, 12 scenarios, 5 debug cases. If you've designed automation before, you'll recognise every one.</p>
     </div>
   </section>
 
+  <!-- FLOW GAME -->
   <section id="flowgame">
     <div class="section-label">Interactive</div>
-    <h2 class="section-title" style="margin-bottom:1rem;">RPA Flow Designer</h2>
+    <h2 class="section-title section-title--tight">RPA Flow Designer</h2>
 
-    <div class="mode-tabs-bar">
-      <button data-mode="campaign" class="mode-tab active">▸ Campaign<span class="tab-sub">12 business scenarios</span></button>
-      <button data-mode="debug"    class="mode-tab">▸ Debug<span class="tab-sub">find the broken bot</span></button>
-      <button data-mode="sandbox"  class="mode-tab">▸ Sandbox<span class="tab-sub">free design + export</span></button>
-      <button data-mode="leaderboard" class="mode-tab">▸ Stats<span class="tab-sub">your results</span></button>
+    <div class="mode-tabs-bar" role="tablist" aria-label="Game modes">
+      <button type="button" data-mode="campaign" class="mode-tab active" role="tab" aria-selected="true" aria-controls="mode-campaign">▸ Campaign<span class="tab-sub">12 business scenarios</span></button>
+      <button type="button" data-mode="debug" class="mode-tab" role="tab" aria-selected="false" aria-controls="mode-debug">▸ Debug<span class="tab-sub">find the broken bot</span></button>
+      <button type="button" data-mode="sandbox" class="mode-tab" role="tab" aria-selected="false" aria-controls="mode-sandbox">▸ Sandbox<span class="tab-sub">free design + export</span></button>
+      <button type="button" data-mode="leaderboard" class="mode-tab" role="tab" aria-selected="false" aria-controls="mode-leaderboard">▸ Stats<span class="tab-sub">your results</span></button>
     </div>
 
-    <div id="mode-campaign" class="mode-panel">
-
-      <!-- Top info strip: business case + framework + task ABOVE the board -->
+    <!-- CAMPAIGN -->
+    <div id="mode-campaign" class="mode-panel" role="tabpanel">
       <div class="campaign-info-strip">
         <div class="campaign-info-left">
           <div class="sidebar-label">// Business Case</div>
           <div id="business-case" class="business-case-box"></div>
         </div>
+        <div class="campaign-info-center">
+          <div class="sidebar-label">// Framework</div>
+          <div id="framework-rec" class="framework-box"></div>
+          <div id="framework-rec-wrapper"></div>
+        </div>
         <div class="campaign-info-right">
-          <div id="framework-rec-wrapper" style="display:none;">
-            <div class="sidebar-label">// Recommended Framework</div>
-            <div id="framework-rec" class="framework-box" style="margin-bottom:0.75rem;"></div>
-          </div>
           <div class="sidebar-label">// Task</div>
           <div id="task-desc" class="task-box"></div>
         </div>
       </div>
 
-      <!-- Bottom: sidebar (filter+palette+tests) + board -->
       <div class="campaign-layout">
         <div class="campaign-sidebar">
           <div class="sidebar-label">// Domain Filter</div>
           <div id="domain-filter" class="domain-filter"></div>
 
-          <div class="sidebar-label" style="margin-top:0.75rem;">// Level <span>— click to jump</span></div>
-          <div id="level-picker" style="display:flex;flex-wrap:wrap;gap:0.35rem;"></div>
+          <div class="sidebar-label mt-075">// Level <span>— click to jump</span></div>
+          <div id="level-picker" class="level-picker"></div>
 
-          <div class="sidebar-label" style="margin-top:0.75rem;">// Blocks <span>— click to add</span></div>
-          <div id="palette" style="display:flex;flex-direction:column;gap:0.4rem;"></div>
+          <div class="sidebar-label mt-075">// Blocks <span>— click to add · drag to reorder</span></div>
+          <div id="palette" class="palette-list"></div>
 
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.75rem;">
-            <div class="sidebar-label" style="margin:0;">// Tests</div>
-            <button id="tests-toggle-btn" class="tests-toggle">[T] Show Tests</button>
+          <div class="tests-header mt-075">
+            <div class="sidebar-label" id="tests-header-label">// Tests</div>
+            <button type="button" id="tests-toggle-btn" class="tests-toggle" aria-label="Toggle test visibility">[T] Show all</button>
           </div>
-          <div id="tests-panel" class="tests-panel"></div>
+          <div id="tests-panel" class="tests-panel" aria-live="polite"></div>
 
-          <button id="run-btn" class="btn-run">▶ Run flow</button>
-          <button id="reset-btn" class="btn-reset">↺ Reset</button>
-          <div id="flow-result" class="result-msg"></div>
+          <button type="button" id="run-btn" class="btn-run" aria-label="Run flow tests">▶ Run flow</button>
+          <button type="button" id="reset-btn" class="btn-reset" aria-label="Reset current flow">↺ Reset</button>
+          <div id="flow-result" class="result-msg" aria-live="polite"></div>
         </div>
 
         <div class="campaign-board-wrap">
           <div class="board-status">
-            <div class="board-hint">Click palette block → adds to board · Drag blocks to reorder · Click to remove</div>
+            <div class="board-hint">Click to add · Drag to reorder · Click to remove</div>
             <div class="board-stats">
-              <span>⏱ <span id="fg-timer" style="color:var(--accent3);">00:00</span></span>
-              <span>Lvl: <span id="fg-level" style="color:var(--accent);">1</span></span>
-              <span>Score: <span id="fg-score" style="color:#f59e0b;">0</span></span>
+              <span>⏱ <span id="fg-timer">00:00</span></span>
+              <span>Lvl: <span id="fg-level">1</span></span>
+              <span>Score: <span id="fg-score">0</span></span>
             </div>
           </div>
-          <div class="flow-board">
+          <div class="flow-board" aria-label="Flow diagram board">
             <div id="flow-nodes" class="flow-nodes"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <div id="mode-debug" class="mode-panel" style="display:none;">
-      <div style="max-width:900px;">
-        <p style="font-family:var(--mono);font-size:0.85rem;color:var(--muted);line-height:1.8;margin-bottom:2rem;">A bot runs in production. Something's wrong. Read the scenario, examine the flow, find the buggy step. Solved cases disappear — the next one appears below.</p>
-        <div id="debug-puzzle-area" style="display:flex;flex-direction:column;gap:1.5rem;"></div>
+    <!-- DEBUG -->
+    <div id="mode-debug" class="mode-panel hidden" role="tabpanel">
+      <div class="debug-intro">
+        <p class="mono-text">A bot runs in production. Something's wrong. Read the scenario, examine the flow, find the buggy step. Solved cases disappear — the next one appears.</p>
       </div>
+      <div id="debug-puzzle-area" class="debug-puzzles"></div>
     </div>
 
-    <div id="mode-sandbox" class="mode-panel" style="display:none;">
+    <!-- SANDBOX -->
+    <div id="mode-sandbox" class="mode-panel hidden" role="tabpanel">
       <div class="sandbox-layout">
         <div class="sandbox-sidebar">
           <div class="sidebar-label">// All Blocks</div>
           <div id="sandbox-palette" class="sandbox-palette"></div>
-          <button id="sandbox-export-btn" class="btn-run" style="margin-top:1rem;">⬇ Export SVG</button>
-          <button id="sandbox-clear-btn" class="btn-reset">↺ Clear board</button>
-          <div class="sandbox-hint" style="margin-top:0.5rem;"><span style="color:var(--accent3);">// HINT:</span> Free design. Export as SVG for documentation.</div>
+          <button type="button" id="sandbox-export-btn" class="btn-run mt-1" aria-label="Export diagram as SVG">⬇ Export SVG</button>
+          <button type="button" id="sandbox-clear-btn" class="btn-reset" aria-label="Clear sandbox board">↺ Clear board</button>
+          <div class="sandbox-hint mt-05"><span class="hint-accent">// HINT:</span> Free design. Export as SVG for documentation.</div>
         </div>
-        <div style="flex:1;min-width:300px;">
-          <div class="board-hint" style="margin-bottom:0.75rem;">Free design · Blocks: <span id="sandbox-count" style="color:var(--accent);">0</span></div>
-          <div class="flow-board"><div id="sandbox-nodes" class="flow-nodes"></div></div>
+        <div class="sandbox-board-wrap">
+          <div class="board-hint">Free design · Blocks: <span id="sandbox-count">0</span></div>
+          <div class="flow-board" aria-label="Sandbox flow board"><div id="sandbox-nodes" class="flow-nodes"></div></div>
         </div>
       </div>
     </div>
 
-    <div id="mode-leaderboard" class="mode-panel" style="display:none;">
-      <div style="max-width:780px;">
-        <p style="font-family:var(--mono);font-size:0.85rem;color:var(--muted);line-height:1.8;margin-bottom:2rem;">Your local stats — stored in your browser only.</p>
+    <!-- STATS -->
+    <div id="mode-leaderboard" class="mode-panel hidden" role="tabpanel">
+      <div class="stats-wrap">
+        <p class="mono-text">Your local stats — stored in your browser only.</p>
         <div id="stats-grid" class="stats-grid"></div>
-        <div class="sidebar-label" style="margin-bottom:0.75rem;">// Level history</div>
-        <div id="stats-history" style="display:flex;flex-direction:column;gap:0.4rem;"></div>
-        <button id="stats-reset-btn" style="margin-top:2rem;padding:0.7rem 1rem;background:transparent;color:#f43f5e;font-family:var(--mono);font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;border:1px solid rgba(244,63,94,0.3);cursor:pointer;">⚠ Reset all stats</button>
+        <div class="sidebar-label mb-075">// Level history</div>
+        <div id="stats-history" class="stats-history"></div>
+        <button type="button" id="stats-reset-btn" class="btn-danger mt-2" aria-label="Reset all stats">⚠ Reset all stats</button>
       </div>
     </div>
   </section>
 
+  <!-- CONTACT -->
   <section id="contact">
     <div class="section-label">Contact</div>
     <div class="contact-inner">
@@ -300,10 +295,10 @@
     </div>
   </section>
 
+  <!-- FOOTER -->
   <footer>
     <p><span class="status-dot"></span>Available for projects</p>
     <p>© 2026 Mateusz Laszczyk</p>
-    <p style="font-family:var(--mono);font-size:0.7rem;color:var(--border);">v3.0.0</p>
   </footer>
 
   <script src="game.js"></script>
