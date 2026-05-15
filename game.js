@@ -387,6 +387,66 @@ console.log(
       options: [1, 2, 3, 5],
       optionLabels: ['FETCH block', 'AI AGENT block', 'PROCESS block', 'LOG block'],
     },
+    {
+      title: 'Selector not found after SAP GUI update',
+      scenario: 'Bot ran perfectly for 6 months. After a SAP GUI patch last Friday, it crashes every run with "Cannot find UI element". Nothing in the flow changed — only SAP was updated.',
+      flow: ['START', 'SAP_LOGIN', 'FETCH', 'SAP_TXN', 'PROCESS', 'LOG', 'END'],
+      bugIndex: 3,
+      explanation: 'SAP_TXN uses hardcoded selectors with dynamic attributes (window index, exact title with version number) that changed after the SAP GUI update. Fix: replace index-based selectors with stable attributes — use title wildcards, aaname, or the SAP control ID. Avoid any selector property that includes version numbers or positional indices.',
+      hint: 'SAP was updated — what in the bot depends on SAP\'s exact UI structure?',
+      options: [1, 2, 3, 4],
+      optionLabels: ['SAP_LOGIN block', 'FETCH block', 'SAP_TXN block', 'PROCESS block'],
+    },
+    {
+      title: 'Invoke Workflow File – path not found',
+      scenario: 'Bot works on the developer\'s machine. Deployed to Orchestrator and run on the robot machine — immediately crashes with "Could not find file: ..\\Workflows\\Helper.xaml". The file exists in the project.',
+      flow: ['START', 'PROCESS', 'FETCH', 'VALIDATE', 'LOG', 'END'],
+      bugIndex: 1,
+      explanation: 'PROCESS (Invoke Workflow File activity) uses a relative path like "..\\Workflows\\Helper.xaml" which resolves correctly from the developer\'s working directory but not from the Orchestrator robot\'s execution context. Fix: use the project root-relative path "Workflows\\Helper.xaml" without leading dots, or store the base path in an Orchestrator Asset and build the path dynamically at runtime.',
+      hint: 'The file exists — so why can\'t the robot find it?',
+      options: [0, 1, 3, 4],
+      optionLabels: ['START block', 'PROCESS block', 'VALIDATE block', 'LOG block'],
+    },
+    {
+      title: 'NullReferenceException when DataTable is empty',
+      scenario: 'Bot processes daily reports. On days with no transactions the bot crashes with "NullReferenceException: Object reference not set". On normal days it runs fine.',
+      flow: ['START', 'FETCH', 'VALIDATE', 'LOOP', 'PROCESS', 'LOG', 'END'],
+      bugIndex: 2,
+      explanation: 'VALIDATE does not check whether the DataTable has any rows before the flow proceeds to LOOP. When the report is empty, LOOP calls Get Row Item on an empty table — null reference. Fix: add a row count check inside VALIDATE (If dt.Rows.Count = 0 Then set transaction status to "No data" and jump to END). Never assume a fetched DataTable has rows.',
+      hint: 'What happens when the data source returns zero rows?',
+      options: [1, 2, 3, 4],
+      optionLabels: ['FETCH block', 'VALIDATE block', 'LOOP block', 'PROCESS block'],
+    },
+    {
+      title: 'Infinite loop – missing increment',
+      scenario: 'Power Automate Desktop flow runs, enters a loop — and never exits. CPU goes to 100%, the machine freezes after ~2 minutes. Task Manager shows PAD process consuming all resources.',
+      flow: ['START', 'FETCH', 'LOOP', 'PROCESS', 'VALIDATE', 'LOG', 'END'],
+      bugIndex: 2,
+      explanation: 'The LOOP block iterates based on a counter variable, but there is no action inside the loop to increment that variable. The exit condition (counter >= rowCount) is never reached so the loop runs forever. Fix: add a "Increase variable" action as the last step inside the loop body so the counter advances on each iteration.',
+      hint: 'The loop has an exit condition — so why does it never exit?',
+      options: [1, 2, 3, 4],
+      optionLabels: ['FETCH block', 'LOOP block', 'PROCESS block', 'VALIDATE block'],
+    },
+    {
+      title: 'OCR fails on Windows Server',
+      scenario: 'Flow works on the developer laptop. Deployed to a Windows Server 2019 VM — the Extract Text with OCR action returns an empty string every time. No error thrown, just blank output.',
+      flow: ['START', 'FETCH', 'EXTRACT', 'VALIDATE', 'PROCESS', 'LOG', 'END'],
+      bugIndex: 2,
+      explanation: 'Windows Server does not include OCR language packs by default. The EXTRACT block silently returns an empty string because the Tesseract/Windows OCR engine has no language model to work with. Fix: install the required language pack on the server (Settings → Time & Language → Language → Add language with OCR capability), or replace EXTRACT with "Get text from window" / "Get details of UI element" which does not require OCR.',
+      hint: 'The action runs without error but returns nothing — what environmental dependency might be missing?',
+      options: [1, 2, 3, 4],
+      optionLabels: ['FETCH block', 'AI EXTRACT block', 'VALIDATE block', 'PROCESS block'],
+    },
+    {
+      title: 'Access denied to Excel file',
+      scenario: 'Flow crashes on the FETCH step with "Access denied" or "File is locked by another process". The Excel file exists. Running the flow manually works — the issue only appears during scheduled runs.',
+      flow: ['START', 'FETCH', 'LOOP', 'PROCESS', 'VALIDATE', 'LOG', 'END'],
+      bugIndex: 1,
+      explanation: 'FETCH tries to open the Excel file while it is already open by another process — either a previous failed flow run that did not close it, or a user who has the file open. Fix: add a "Close Excel" action (or a CLEANUP step) at the start of the flow before FETCH to ensure no stale handles exist. Also wrap FETCH in error handling so a failed open does not leave the file locked for subsequent runs.',
+      hint: 'The file exists and permissions are correct — what else could block access to it?',
+      options: [0, 1, 3, 4],
+      optionLabels: ['START block', 'FETCH block', 'PROCESS block', 'VALIDATE block'],
+    },
   ];
 
   // ════════════════════════════════════════════════════════════
@@ -1285,6 +1345,7 @@ console.log(
       { label: 'Levels Completed',  value: `${completed}/${LEVELS.length}`, color: 'var(--accent)' },
       { label: 'Total Score',       value: stats.totalScore || 0,           color: 'var(--accent3)' },
       { label: 'Debug Solved',      value: stats.debugsSolved || 0,         color: '#f59e0b' },
+      { label: 'SAP Lab Score',     value: stats.sapLabScore != null ? `${stats.sapLabScore}/${SAP_QUIZZES.length * 100}` : '—', color: '#0891b2' },
       { label: 'Total Attempts',    value: stats.attempts || 0,             color: 'var(--muted)' },
     ].forEach(c => {
       const card = document.createElement('div');
@@ -1339,6 +1400,7 @@ console.log(
         if (mode === 'debug')       renderDebugMode();
         if (mode === 'sandbox')     { renderSandboxPalette(); renderSandbox(); }
         if (mode === 'leaderboard') renderStats();
+        if (mode === 'sap-quiz')    initSAPQuiz();
         if (mode === 'campaign')    startTimer();
       });
     });
@@ -1419,6 +1481,194 @@ console.log(
     }, { threshold: 0.12 });
 
     document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // SAP ERROR LAB — quiz data + renderer
+  // ════════════════════════════════════════════════════════════
+  const SAP_QUIZZES = [
+    {
+      scenario: 'Bot executes transaction FBV0 to post a parked document. Suddenly the run fails with a clear message from SAP.',
+      error: '"Transaction FBV0 is not known in system PRD."',
+      question: 'You suspect the transaction does not exist in this client. Which SAP transaction do you run to verify?',
+      options: ['SU53', 'SE93', 'ST22', 'SM50'],
+      correct: 'SE93',
+      explanation: 'SE93 (Transaction Code Maintenance) displays the definition of any transaction code. If FBV0 does not exist in this system or client, SE93 will tell you immediately. SU53 checks authorizations, ST22 shows ABAP dumps, SM50 shows work processes.',
+    },
+    {
+      scenario: 'Bot tries to create a purchase order via ME21N. The SAP screen never opens — bot gets an authorization error instead.',
+      error: '"You are not authorized to execute transaction ME21N."',
+      question: 'You need to confirm which authorization object is missing. What do you run in SAP right after the failed transaction?',
+      options: ['SU37', 'SU53', 'ST22', 'SE93'],
+      correct: 'SU53',
+      explanation: 'SU53 shows the last failed authorization check for the current user. After any "not authorized" error, run SU53 and it will display exactly which authorization object and field values are missing. SU37 is used to manually check authorization values — useful later, but SU53 is the first step.',
+    },
+    {
+      scenario: 'Bot is processing 500 documents in a loop. On document #312 SAP throws a short dump and the bot stops completely.',
+      error: '"Runtime error: OBJECTS_OBJREF_NOT_ASSIGNED at line 47 of program ZPOST_INV."',
+      question: 'Where do you look in SAP to see the full stack trace and find the root cause?',
+      options: ['ST22', 'SM50', 'SU53', 'SE93'],
+      correct: 'ST22',
+      explanation: 'ST22 is the ABAP Short Dump analysis transaction. It stores all runtime errors with full stack trace, source code line, variable contents at time of crash, and timestamp. This is always the first place to check after an ABAP dump. SM50 shows work processes, not dump details.',
+    },
+    {
+      scenario: 'Bot has been running for 1 hour on a single document. No error thrown — it just hangs. The Update work process in SAP appears stuck.',
+      error: 'No error message. Bot is frozen at SAP_TXN step. Process status: "Running" since 01:14.',
+      question: 'Which transaction shows you all active SAP work processes so you can identify and cancel the hanging one?',
+      options: ['SM50', 'SM37', 'ST22', 'SU53'],
+      correct: 'SM50',
+      explanation: 'SM50 displays all current work processes (Dialog, Update, Background, Spool, Enqueue) with their status and runtime. You can see which process is running too long and cancel it directly. SM37 is for background job monitoring — useful for scheduled jobs, but not for live stuck processes.',
+    },
+    {
+      scenario: 'Bot runs a mass posting program ZPOST_INVOICES. It ends with a database error after processing about 200 of 500 records.',
+      error: '"SAPSQL_ARRAY_INSERT_DUPREC — Duplicate key when inserting into table BKPF."',
+      question: 'You need to check whether those invoice records already exist in the database. Which tool do you use?',
+      options: ['SE16', 'SU53', 'ST22', 'SM50'],
+      correct: 'SE16',
+      explanation: 'SE16 (or SE16N) is the Data Browser — it lets you open any SAP database table and filter records by key fields. To check if BKPF already has entries with the same document key, open SE16, enter table BKPF, and filter by company code, fiscal year, and document number. SU53/ST22 are unrelated here.',
+    },
+    {
+      scenario: 'Bot schedules a background job to run nightly at 02:00 for month-end closing. Monday morning finance reports the job never ran last night.',
+      error: 'No error in logs. Job status in SAP shows "Scheduled" — never "Active" or "Finished".',
+      question: 'Which transaction do you use to find the job, check its status, and see why it did not execute?',
+      options: ['SM37', 'SM50', 'SE93', 'ST22'],
+      correct: 'SM37',
+      explanation: 'SM37 (Job Overview) is the background job monitor. You can filter by job name, user, date range, and status. A job stuck in "Scheduled" status usually means no background work process was available, the job\'s start condition was not met, or it was cancelled. SM37 shows all of this. SM50 shows live processes — it would not help for a job that never started.',
+    },
+    {
+      scenario: 'Bot logs into SAP using a service account. After running fine for weeks, it starts failing with a logon error. You suspect the account might already have too many active sessions.',
+      error: '"Maximum number of sessions for user SVCBOT01 reached."',
+      question: 'Which transaction shows you all currently logged-in users so you can find and terminate orphaned sessions?',
+      options: ['AL08', 'SU53', 'SM50', 'ST22'],
+      correct: 'AL08',
+      explanation: 'AL08 (Users Logged On) shows all active user sessions across the entire SAP system landscape, including which application server each session is on. You can identify orphaned sessions from the service account (left open by a crashed bot run) and terminate them. SM50 only shows work processes, not user sessions.',
+    },
+  ];
+
+  let sapCurrentIdx  = 0;
+  let sapScore       = 0;
+  let sapAnswered    = false;
+
+  function renderSAPQuiz() {
+    const area = el('sap-quiz-area');
+    area.innerHTML = '';
+    sapAnswered = false;
+
+    // Update progress and score
+    const progressEl = el('sap-progress');
+    const scoreEl    = el('sap-score-display');
+    if (progressEl) progressEl.textContent = `Question ${sapCurrentIdx + 1} / ${SAP_QUIZZES.length}`;
+    if (scoreEl)    scoreEl.textContent    = sapScore;
+
+    // All done
+    if (sapCurrentIdx >= SAP_QUIZZES.length) {
+      const pct = Math.round((sapScore / (SAP_QUIZZES.length * 100)) * 100);
+      const grade = pct >= 85 ? '🏆 SAP Expert' : pct >= 60 ? '✅ Solid knowledge' : '📚 Keep studying';
+
+      area.innerHTML = `
+        <div class="sap-complete">
+          <div class="sap-complete-icon">🖥️</div>
+          <div class="sap-complete-title">${grade}</div>
+          <div class="sap-complete-score">${sapScore} / ${SAP_QUIZZES.length * 100} pts · ${pct}% correct</div>
+          <div class="sap-complete-sub">${SAP_QUIZZES.length} SAP error scenarios completed</div>
+        </div>
+      `;
+
+      // Save to localStorage
+      const stats = loadStats();
+      stats.sapLabScore   = sapScore;
+      stats.sapLabDone    = true;
+      stats.totalScore    = (stats.totalScore || 0) + sapScore;
+      saveStats(stats);
+      return;
+    }
+
+    const q = SAP_QUIZZES[sapCurrentIdx];
+
+    const card = document.createElement('div');
+    card.className = 'sap-card';
+
+    // Scenario
+    const scenLabel = document.createElement('div');
+    scenLabel.className = 'sap-scenario-label';
+    scenLabel.textContent = `// Scenario #${sapCurrentIdx + 1}`;
+
+    const scenText = document.createElement('p');
+    scenText.className = 'sap-scenario-text';
+    scenText.textContent = q.scenario;
+
+    // Error box
+    const errBox = document.createElement('div');
+    errBox.className = 'sap-error-box';
+    errBox.textContent = q.error;
+
+    // Question
+    const question = document.createElement('div');
+    question.className = 'sap-question';
+    question.textContent = `?> ${q.question}`;
+
+    // Options grid
+    const optsWrap = document.createElement('div');
+    optsWrap.className = 'sap-options';
+
+    // Explanation (hidden until answer)
+    const expl = document.createElement('div');
+    expl.className = 'sap-explanation';
+
+    // Next button (hidden until answer)
+    const nextBtn = document.createElement('button');
+    nextBtn.type = 'button';
+    nextBtn.className = 'btn-run sap-next-btn';
+    nextBtn.textContent = sapCurrentIdx < SAP_QUIZZES.length - 1 ? 'Next scenario →' : 'See results →';
+
+    nextBtn.addEventListener('click', () => {
+      sapCurrentIdx++;
+      renderSAPQuiz();
+    });
+
+    q.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'sap-opt-btn';
+      btn.textContent = opt;
+      btn.setAttribute('aria-label', `SAP transaction ${opt}`);
+
+      btn.addEventListener('click', () => {
+        if (sapAnswered) return;
+        sapAnswered = true;
+
+        const correct = opt === q.correct;
+
+        // Style all buttons
+        optsWrap.querySelectorAll('.sap-opt-btn').forEach(b => {
+          b.disabled = true;
+          if (b.textContent === q.correct) b.className = 'sap-opt-btn correct';
+          else if (b.textContent === opt && !correct) b.className = 'sap-opt-btn wrong';
+        });
+
+        if (correct) {
+          sapScore += 100;
+          if (scoreEl) scoreEl.textContent = sapScore;
+        }
+
+        // Show explanation
+        expl.innerHTML = `<strong>${correct ? '✓ Correct — ' : '✗ Wrong — correct answer is '}<span class="sap-txn-badge">${q.correct}</span></strong><br><br>${q.explanation}`;
+        expl.classList.add('visible');
+        nextBtn.classList.add('visible');
+      });
+
+      optsWrap.appendChild(btn);
+    });
+
+    card.append(scenLabel, scenText, errBox, question, optsWrap, expl, nextBtn);
+    area.appendChild(card);
+  }
+
+  function initSAPQuiz() {
+    sapCurrentIdx = 0;
+    sapScore      = 0;
+    sapAnswered   = false;
+    renderSAPQuiz();
   }
 
   // ════════════════════════════════════════════════════════════
