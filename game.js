@@ -1,6 +1,6 @@
 /* ============================================================
    RPA Flow Designer — game.js
-   Mateusz Łaszczyk Portfolio
+   Mateusz Laszczyk Portfolio
    ============================================================ */
 
 // Easter egg for curious recruiters
@@ -813,18 +813,18 @@ console.log(
   function loadLevel() {
     const lvl = currentLevel();
 
-    // Level counter
-    el('fg-level').textContent  = `${currentLevelIdx + 1}/${filteredLevels.length}`;
+    // Level counter — shows position within FILTERED set
+    el('fg-level').textContent = `${currentLevelIdx + 1}/${filteredLevels.length}`;
 
-    // Business case (above framework rec)
+    // Business case
     el('business-case').innerHTML =
       `<strong style="color:var(--accent);display:block;margin-bottom:0.4rem;font-size:0.9rem;">${lvl.title}</strong>${lvl.business}`;
 
     // Framework recommendation
-    const fw = el('framework-rec');
+    const fw  = el('framework-rec');
     const fww = el('framework-rec-wrapper');
     if (lvl.framework) {
-      fw.textContent = lvl.framework;
+      fw.textContent    = lvl.framework;
       fww.style.display = 'block';
     } else {
       fww.style.display = 'none';
@@ -833,12 +833,12 @@ console.log(
     // Task
     el('task-desc').innerHTML = `<span style="color:var(--accent3);">// TASK:</span> ${lvl.desc}`;
 
-    // Reset
-    flow = [];
+    // Reset flow
+    flow        = [];
     testsVisible = false;
     el('flow-result').textContent = '';
 
-    renderDomainFilter();
+    renderLevelPicker();
     renderPalette();
     renderFlow();
     renderTests(null);
@@ -847,7 +847,7 @@ console.log(
   }
 
   // ════════════════════════════════════════════════════════════
-  // DOMAIN FILTER
+  // DOMAIN FILTER — only re-renders when domain changes
   // ════════════════════════════════════════════════════════════
   function renderDomainFilter() {
     const domains = ['All', ...new Set(LEVELS.map(l => l.domain))];
@@ -859,15 +859,63 @@ console.log(
       btn.className = 'domain-chip' + (d === activeDomain ? ' active' : '');
       btn.textContent = d;
       btn.addEventListener('click', () => {
-        activeDomain    = d;
-        filteredLevels  = d === 'All'
+        activeDomain   = d;
+        filteredLevels = d === 'All'
           ? LEVELS.map((_, i) => i)
           : LEVELS.map((l, i) => l.domain === d ? i : -1).filter(i => i >= 0);
         currentLevelIdx = 0;
         flow = [];
+        renderDomainFilter();   // re-render chips with new active
+        renderLevelPicker();    // re-render level dots
         loadLevel();
       });
       container.appendChild(btn);
+    });
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // LEVEL PICKER — clickable dots for jumping to any level
+  // ════════════════════════════════════════════════════════════
+  function renderLevelPicker() {
+    let picker = el('level-picker');
+    if (!picker) return;
+    picker.innerHTML = '';
+
+    const stats = loadStats();
+
+    filteredLevels.forEach((globalIdx, localIdx) => {
+      const lvl    = LEVELS[globalIdx];
+      const isCur  = localIdx === currentLevelIdx;
+      const isDone = stats.completed && stats.completed[globalIdx];
+
+      const dot = document.createElement('button');
+      dot.title = `${localIdx + 1}. ${lvl.title}`;
+      dot.style.cssText = `
+        width: 28px; height: 28px; border-radius: 50%;
+        border: 2px solid ${isCur ? 'var(--accent)' : isDone ? 'var(--accent3)' : 'var(--border)'};
+        background: ${isCur ? 'var(--accent)' : isDone ? 'rgba(16,185,129,0.15)' : 'transparent'};
+        color: ${isCur ? 'var(--bg)' : isDone ? 'var(--accent3)' : 'var(--muted)'};
+        font-family: var(--mono); font-size: 0.65rem; font-weight: 700;
+        cursor: pointer; transition: all 0.15s; line-height: 1;
+        display: flex; align-items: center; justify-content: center;
+        flex-shrink: 0;
+      `;
+      dot.textContent = localIdx + 1;
+
+      dot.addEventListener('mouseenter', () => {
+        if (!isCur) dot.style.borderColor = 'var(--accent)';
+      });
+      dot.addEventListener('mouseleave', () => {
+        if (!isCur) dot.style.borderColor = isDone ? 'var(--accent3)' : 'var(--border)';
+      });
+
+      dot.addEventListener('click', () => {
+        currentLevelIdx = localIdx;
+        flow = [];
+        loadLevel();
+      });
+
+      picker.appendChild(dot);
     });
   }
 
@@ -1251,6 +1299,7 @@ console.log(
     initModeTabs();
     initEvents();
     renderDomainFilter();
+    renderLevelPicker();
     loadLevel();
     initFadeIn();
   }

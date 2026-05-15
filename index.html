@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mateusz Łaszczyk — RPA &amp; AI Automation Engineer</title>
-  <meta name="description" content="Portfolio of Mateusz Łaszczyk — RPA Engineer specialising in UiPath, Power Platform, SAP automation and Azure AI." />
-  <meta name="author" content="Mateusz Łaszczyk" />
+  <title>Mateusz Laszczyk — RPA &amp; AI Automation Engineer</title>
+  <meta name="description" content="Portfolio of Mateusz Laszczyk — RPA Engineer specialising in UiPath, Power Platform, SAP automation and Azure AI." />
+  <meta name="author" content="Mateusz Laszczyk" />
   <meta name="theme-color" content="#080c10" />
-  <meta property="og:title" content="Mateusz Łaszczyk — RPA &amp; AI Automation Engineer" />
+  <meta property="og:title" content="Mateusz Laszczyk — RPA &amp; AI Automation Engineer" />
   <meta property="og:description" content="UiPath Certified RPA Engineer. Power Platform. Azure AI." />
   <meta property="og:type" content="website" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23080c10'/%3E%3Ctext x='32' y='44' font-family='monospace' font-size='38' font-weight='bold' text-anchor='middle' fill='%2300d4ff'%3E%3E_%3C/text%3E%3C/svg%3E" />
@@ -16,7 +16,7 @@
 <body>
 
   <nav>
-    <div class="nav-logo">Młaszczyk Dev</div>
+    <div class="nav-logo">Mlaszczyk Dev</div>
     <ul class="nav-links">
       <li><a href="#skills">Skills</a></li>
       <li><a href="#projects">Projects</a></li>
@@ -161,7 +161,7 @@
         <div class="terminal-body">
           <div><span class="t-prompt">~$</span> <span class="t-cmd">cat profile.json</span></div>
           <div class="t-out">{</div>
-          <div class="t-out">&nbsp;&nbsp;<span class="t-val">"name"</span>: <span class="t-str">"Mateusz Łaszczyk"</span>,</div>
+          <div class="t-out">&nbsp;&nbsp;<span class="t-val">"name"</span>: <span class="t-str">"Mateusz Laszczyk"</span>,</div>
           <div class="t-out">&nbsp;&nbsp;<span class="t-val">"role"</span>: <span class="t-str">"RPA Engineer"</span>,</div>
           <div class="t-out">&nbsp;&nbsp;<span class="t-val">"location"</span>: <span class="t-str">"Poland 🇵🇱"</span>,</div>
           <div class="t-out">&nbsp;&nbsp;<span class="t-val">"certs"</span>: [<span class="t-str">"UiPath RPA Associate"</span>, <span class="t-str">"MS Power Platform"</span>],</div>
@@ -197,23 +197,33 @@
     </div>
 
     <div id="mode-campaign" class="mode-panel">
+
+      <!-- Top info strip: business case + framework + task ABOVE the board -->
+      <div class="campaign-info-strip">
+        <div class="campaign-info-left">
+          <div class="sidebar-label">// Business Case</div>
+          <div id="business-case" class="business-case-box"></div>
+        </div>
+        <div class="campaign-info-right">
+          <div id="framework-rec-wrapper" style="display:none;">
+            <div class="sidebar-label">// Recommended Framework</div>
+            <div id="framework-rec" class="framework-box" style="margin-bottom:0.75rem;"></div>
+          </div>
+          <div class="sidebar-label">// Task</div>
+          <div id="task-desc" class="task-box"></div>
+        </div>
+      </div>
+
+      <!-- Bottom: sidebar (filter+palette+tests) + board -->
       <div class="campaign-layout">
         <div class="campaign-sidebar">
           <div class="sidebar-label">// Domain Filter</div>
           <div id="domain-filter" class="domain-filter"></div>
 
-          <div class="sidebar-label" style="margin-top:0.5rem;">// Business Case</div>
-          <div id="business-case" class="business-case-box"></div>
+          <div class="sidebar-label" style="margin-top:0.75rem;">// Level <span>— click to jump</span></div>
+          <div id="level-picker" style="display:flex;flex-wrap:wrap;gap:0.35rem;"></div>
 
-          <div id="framework-rec-wrapper" style="display:none;">
-            <div class="sidebar-label" style="margin-top:0.5rem;">// Recommended Framework</div>
-            <div id="framework-rec" class="framework-box"></div>
-          </div>
-
-          <div class="sidebar-label" style="margin-top:0.5rem;">// Task</div>
-          <div id="task-desc" class="task-box"></div>
-
-          <div class="sidebar-label" style="margin-top:0.5rem;">// Blocks <span>— click to add</span></div>
+          <div class="sidebar-label" style="margin-top:0.75rem;">// Blocks <span>— click to add</span></div>
           <div id="palette" style="display:flex;flex-direction:column;gap:0.4rem;"></div>
 
           <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.75rem;">
@@ -229,7 +239,7 @@
 
         <div class="campaign-board-wrap">
           <div class="board-status">
-            <div class="board-hint">Click palette block → adds to board · Click block on board → removes it</div>
+            <div class="board-hint">Click palette block → adds to board · Drag blocks to reorder · Click to remove</div>
             <div class="board-stats">
               <span>⏱ <span id="fg-timer" style="color:var(--accent3);">00:00</span></span>
               <span>Lvl: <span id="fg-level" style="color:var(--accent);">1</span></span>
@@ -292,7 +302,7 @@
 
   <footer>
     <p><span class="status-dot"></span>Available for projects</p>
-    <p>© 2026 Mateusz Łaszczyk</p>
+    <p>© 2026 Mateusz Laszczyk</p>
     <p style="font-family:var(--mono);font-size:0.7rem;color:var(--border);">v3.0.0</p>
   </footer>
 
