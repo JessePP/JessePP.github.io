@@ -200,36 +200,6 @@ h1.hero-title span {
   flex-wrap: wrap;
 }
 
-.hero-scroll {
-  position: absolute;
-  bottom: 2rem; left: 4rem;
-  z-index: 2;
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  font-weight: 600;
-  color: var(--border);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-.hero-scroll::after {
-  content: '';
-  display: block;
-  width: 60px;
-  height: 1px;
-  background: var(--muted);
-  animation: scrollLine 2s ease-in-out infinite;
-}
-
-@keyframes scrollLine {
-  0%, 100% { opacity: 0.3; transform: scaleX(1); }
-  50%       { opacity: 1;   transform: scaleX(1.3); transform-origin: left; }
-}
 
 /* ── BUTTONS ──────────────────────────────────────────────── */
 .btn-primary {
